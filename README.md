@@ -17,7 +17,8 @@ Miryoku-style thumb layers.
 
 ## Keymap
 
-- **Base**: Graphite with home-row mods `Gui Alt Ctrl Shift` on `N R T S` and `H A E I`
+- **Base**: Graphite with home-row mods `Gui Alt Ctrl Shift` on `N R T S` and the mirror,
+  `Shift Ctrl Alt Gui`, on `H A E I`
   (urob's "timeless" HRMs: a hold resolves only with a key on the other hand or a thumb).
 - **Thumbs** (left to right): `=`, `Space`/Nav, `Tab`/Mouse, `Enter`/Sym, `Bksp`/Num, `;`.
 - **Layers**: Nav (arrows, Home/End, PgUp/PgDn), Mouse (mouse keys, Cmd shortcuts, one-shot Fn),
