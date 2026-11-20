@@ -64,7 +64,7 @@ extra keys, then includes `base.keymap`. Combos and HRM trigger keys use the
 - `qmk/keymaps/jellydn/`: QMK keymap with Vial enabled, built on foostan's Corne v4.1 Vial build.
   The `Build Corne v4.1 Vial firmware` workflow builds the `.uf2`.
 - `qmk/corne-v4.1-graphite.vil`: the full Vial setup (layers, combos, key overrides, macro, QMK
-  settings). Flash the `.uf2`, then load this file in Vial (File → Load saved layout).
+  settings). Load it in Vial after you flash; see [How to flash](#corne-v41-vial).
 
 The extra keys hold ←/→ (EX1) and `=` / Next Track (EX2). `keymap.c` matches the `.vil` layers; the
 combos, key overrides and macro M0 exist only in the `.vil`, because Vial keeps them in EEPROM.
@@ -113,4 +113,48 @@ controller is mounted upside down, so its buttons face the PCB. Press them with 
 - No `RPI-RP2` drive: use a USB cable that carries data, plug in straight to the computer, and try
   BOOT + RESET again.
 - Never plug in or unplug the TRRS cable while the USB cable is connected. This can short the
+  controllers.
+
+### Corne v4.1 (Vial)
+
+**Where the buttons are.** Each half has two small buttons, RESET and BOOT, next to the controller
+chip, just below the bottom key of the middle-finger column (the 3rd column from the outer edge).
+On the left half RESET is the outer button; on the right half BOOT is the outer one. If a keycap
+covers them, press them with a non-metal stick between the keys.
+
+![Corne v4 RESET and BOOT buttons](https://github.com/foostan/kbd_firmware/assets/736191/05fd9c4b-12c7-4a32-9606-8fea27bfe7b4)
+
+<sub>Picture from foostan's
+[Corne v4 firmware guide](https://github.com/foostan/crkbd/blob/main/docs/firmware/rev4/firmware_en.md).</sub>
+
+**Steps**
+
+1. Open the latest green `Build Corne v4.1 Vial firmware` run in the Actions tab and download the
+   `corne-v4.1-vial` artifact. It holds `tmp_crkbd_rev4_1_standard_jellydn.uf2` and
+   `corne-v4.1-graphite.vil`. Both halves use the same `.uf2`; each half knows its side from the PCB.
+2. Unplug the USB cable, then unplug the TRS/TRRS cable between the halves.
+3. Left half: hold BOOT and plug the USB cable into the left half, then let go of BOOT. If it is
+   already plugged in, hold BOOT, press RESET, then let go of BOOT.
+4. A drive named `RPI-RP2` opens. Copy the `.uf2` to it. The drive closes by itself when the flash
+   is done.
+5. Unplug the USB cable. Do steps 3 and 4 on the right half with the same `.uf2`.
+6. With the USB cable unplugged, connect the TRS/TRRS cable (v4.1 takes either).
+7. Plug the USB cable into the **left** half. (The right half also works: the half with USB becomes
+   the main half.)
+8. Open [Vial](https://get.vial.today/) and choose **File → Load saved layout**, then pick
+   `corne-v4.1-graphite.vil`. The keyboard keeps it, so you do this once. Without it the Corne has
+   no combos and no Graphite shift overrides, and permissive hold and chordal hold are off.
+
+Other way into the bootloader: hold the top-row key second from the outer edge (`B` on the left,
+`J` on the right) while you plug in that half. This also erases the Vial settings, so load the
+`.vil` again afterwards.
+
+**Troubleshooting**
+
+- One half does not type: flash that half again.
+- Combos or the Graphite shift symbols do not work: load the `.vil` again (step 8).
+- A half stops working at random: Corne v4 PCBs are sensitive to radio noise, most often from a
+  phone ([foostan/crkbd#265](https://github.com/foostan/crkbd/issues/265)). Plug the USB cable in
+  again and keep phones more than 30 cm from the keyboard.
+- Never plug in or unplug the TRS/TRRS cable while the USB cable is connected. This can damage the
   controllers.
