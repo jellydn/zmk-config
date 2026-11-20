@@ -25,89 +25,63 @@ and the build pipeline, see the [README](README.md).
   `ZMK_LAYER` are safe and need no guarding. It earns its keep on plain devicetree, i.e. when
   developing modules or board definitions. Without arguments it recurses over the working
   directory; pass files explicitly to narrow it.
-- After keymap changes that affect the layout, regenerate the diagrams with `just draw` (renders
-  `draw/base.svg` and `draw/overview.svg` from the 34-key base keymap).
+- After keymap changes that affect the layout, regenerate the diagram with `just draw` (renders
+  `draw/silakka54.svg`). The `Draw keymap` workflow also renders and commits it on push.
 - `just test` is a snapshot-test harness for developing the ZMK **modules** checked out under
   `modules/zmk/`. It does not test this repo's keymap; the keymap is validated by building.
 
 ## How the multi-board layout works
 
-`config/base.keymap` defines all layers exactly once, for 34 keys, using the standardized key labels
-from [zmk-helpers](https://github.com/urob/zmk-helpers): `LT0`–`LT4`, `LM0`–`LM4`, `LB0`–`LB4` and
-`LH0`–`LH2` for the left top/middle/bottom rows and thumbs, mirrored with `R` on the right (`0` is
-innermost). HRM trigger positions, combos (`config/combos.dtsi`), the leader key and the mouse layer
-are all written against these labels — so they adapt to any board automatically.
+`config/base.keymap` defines all layers exactly once, for the 54-key Silakka54, using the
+standardized key labels from [zmk-helpers](https://github.com/urob/zmk-helpers): `LN0`–`LN5` for the
+number row, `LT0`–`LT5`, `LM0`–`LM5`, `LB0`–`LB5` and `LH0`–`LH2` for the left top/middle/bottom rows
+and thumbs, mirrored with `R` on the right (`0` is innermost). HRM trigger positions and combos
+(`config/combos.dtsi`) are written against these labels — so they adapt to any board automatically.
 
 `base.keymap` intentionally includes **no** key-labels header itself. Each board has a small entry
 keymap that must, in this order:
 
-1. optionally `#define CONFIG_WIRELESS` (enables the Bluetooth keys on the Sys layer),
-2. define a `ZMK_BASE_LAYER(name, LT, RT, LM, RM, LB, RB, LH, RH)` macro that places the eight
-   34-key blocks onto the board's full physical grid, filling leftover keys with `&none` or extra
-   bindings,
-3. include the matching key-labels header from zmk-helpers,
-4. `#include "base.keymap"`.
+1. define a `ZMK_BASE_LAYER(name, LN, RN, LT, RT, LM, RM, LB, RB, LH, RH)` macro that places the
+   ten 54-key blocks onto the board's physical grid, dropping blocks the board lacks (e.g. the
+   number row on a Corne) and filling extra keys with `&none` or extra bindings,
+2. include the matching key-labels header from zmk-helpers,
+3. `#include "base.keymap"`.
 
-`config/corneish_zen.keymap` is a minimal reference example; `config/planck_rev6.keymap` shows a
-non-split, wired board; `config/glove80.keymap` shows a much larger board.
+`config/silakka54.keymap` needs no adapter: `base.keymap` falls back to a pass-through
+`ZMK_BASE_LAYER`. `base.keymap` adds the opposite number row to the HRM trigger keys only when the
+key labels define `LN0`.
 
-## Adding a new board
+## Adding a new board (e.g. the Corne)
 
-1. **Decide on the structure first.** The modular layout above only pays off across several
-   boards. If the new board is the only one you build for, consider dropping the indirection:
-   widen `base.keymap` to the board's full key count (turn the `ZMK_BASE_LAYER` calls into plain
-   `ZMK_LAYER` calls spanning every physical key), add the key-labels `#include` at its top, and
-   rename it to `<board>.keymap` so it becomes the entry point. Combos, HRM trigger positions and
-   the mouse layer keep working as long as the key labels do. (For a true 34-key board, no adapter
-   is needed either way — `base.keymap` has a pass-through fallback.) The steps below assume the
-   modular layout.
-
-2. **Identify the ZMK board/shield names** for the hardware (e.g. `nice_nano_v2` +
-   `corne_left`/`corne_right`), from the ZMK docs or the board's vendor config.
-
-3. **Check for an existing key-position header** in
-   `modules/zmk/helpers/include/zmk-helpers/key-labels/` (after `just init`; the same list is in
-   the [zmk-helpers repo](https://github.com/urob/zmk-helpers/tree/main/include/zmk-helpers/key-labels)).
-   Many layouts already have one, either by name (`glove80.h`, `sofle.h`, …) or by shape (`36.h`,
-   `42.h`, `4x12_wide.h`, …).
-
-   If none matches, write the key-position defines yourself — either at the top of the new entry
-   keymap or, better, as a new header contributed to zmk-helpers — following the naming and
-   mirroring conventions documented in
+1. **Identify the ZMK board/shield names** for the hardware, from the ZMK docs or the board's
+   vendor config. For hardware ZMK does not ship, add a shield under `config/boards/shields/<name>/`
+   (see `silakka54/`: matrix pins from the QMK `keyboard.json`, a physical layout, and the
+   `zmk,wired-split` node for wired splits).
+2. **Pick a key-labels header** from
+   [zmk-helpers](https://github.com/urob/zmk-helpers/tree/main/include/zmk-helpers/key-labels)
+   (`42.h` for a 3x6+3 Corne, `54.h` for the Silakka54), or write the defines yourself following
    [key_labels.md](https://github.com/urob/zmk-helpers/blob/main/docs/key_labels.md#standardization).
-
-4. **Create `config/<board>.keymap`** following the four-step structure above. Start from
-   `corneish_zen.keymap` for wireless splits or `planck_rev6.keymap` for wired boards. When
-   mapping the blocks in `ZMK_BASE_LAYER`, keep the 34 base positions in their standard relative
-   locations and spend spare physical keys on duplicates or extras (the existing adapters use
-   `&kp LGUI` and `&smart_mouse`).
-
-5. **Create `config/<board>.conf`**, copying from an existing one: wireless boards want the sleep
-   and Bluetooth settings from `corneish_zen.conf`; all boards want `CONFIG_ZMK_POINTING=y` for
-   the mouse layer.
-
-6. **Register the build target** in `build.yaml` under `include:`, as `board:` (plus `shield:` for
-   shield-based hardware). Board revisions use ZMK's `name@rev//zmk` syntax — see the existing
-   entries.
-
-7. **Build and check**: `just build <name>` (any substring of the board/shield matches), then
-   confirm the artifact appears in `firmware/`.
+3. **Create `config/<board>.keymap`** with the three-step structure above. Keep the base positions in
+   their relative locations and spend spare keys on extras.
+4. **Create `config/<board>.conf`**; all boards want `CONFIG_ZMK_POINTING=y` for the Mouse layer.
+5. **Register the build target** in `build.yaml` under `include:`, as `board:` plus `shield:`.
+6. **Build and check** in CI (or `just build <name>`), then add the board to the `Draw keymap`
+   workflow if you want a diagram for it.
 
 ## Where to change what
 
-| Change                            | File                                                              |
-| --------------------------------- | ----------------------------------------------------------------- |
-| Layers, HRMs, thumb keys          | `config/base.keymap`                                              |
-| HRM timing                        | `config/base.keymap` (`tapping-term-ms`, `require-prior-idle-ms`; see README troubleshooting) |
-| Combos                            | `config/combos.dtsi` (position diagram at the top)                |
-| Leader sequences                  | `config/leader.dtsi`                                              |
-| Mouse layer                       | `config/mouse.dtsi`                                               |
-| Per-board keys, physical mapping  | `config/<board>.keymap`                                           |
-| Board settings (BT, sleep, mouse) | `config/<board>.conf`                                             |
-| Build targets                     | `build.yaml`                                                      |
-| ZMK/module versions               | `config/west.yml` (via `pin-west bump` only)                      |
-| Dev environment                   | `flake.nix`, `nix/` (test with `nix develop`)                     |
+| Change                            | File                                                     |
+| --------------------------------- | -------------------------------------------------------- |
+| Layers, HRMs, thumb keys          | `config/base.keymap`                                     |
+| HRM timing                        | `config/base.keymap` (`tapping-term-ms`, `require-prior-idle-ms`) |
+| Combos                            | `config/combos.dtsi` (position diagram at the top)       |
+| Per-board keys, physical mapping  | `config/<board>.keymap`                                  |
+| Board settings                    | `config/<board>.conf`                                    |
+| Custom shields                    | `config/boards/shields/<name>/`                          |
+| Build targets                     | `build.yaml`                                             |
+| Keymap diagram                    | `draw/config.yaml`, `.github/workflows/draw.yml`         |
+| ZMK/module versions               | `config/west.yml` (via `pin-west bump` only)             |
+| Dev environment                   | `flake.nix`, `nix/` (test with `nix develop`)            |
 
-Removing a feature: delete its `#include` from `base.keymap` (and its bindings/combo references),
-and if it was the only consumer of a module, drop the module's entry from `config/west.yml`. The
-modules used per feature are commented at the top of `base.keymap`.
+Removing a feature: delete its `#include` and bindings from `base.keymap`, and if it was the only
+consumer of a module, drop the module's entry from `config/west.yml`.

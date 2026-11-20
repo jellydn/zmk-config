@@ -3,43 +3,28 @@ parse_config:
     - "modules/zmk/helpers/include"
 
   zmk_preamble: |
-    #include <zmk-helpers/key-labels/34.h>
-    #define CONFIG_WIRELESS
+    #include <zmk-helpers/key-labels/54.h>
 
   raw_binding_map:
-    "&sys_reset": Reset
-    "&bootloader": Boot
-    "&caps_word": Caps Word
-    "&kp LA(F4)": Close
-
-    "&bt BT_SEL 0": BT 1
-    "&bt BT_SEL 1": BT 2
-    "&bt BT_SEL 2": BT 3
-    "&bt BT_SEL 3": BT 4
-
-    "&kp LC(INS)": Copy
-    "&kp LC(X)": Cut
-    "&kp LS(INS)": Paste
-
-    "&kp LG(LC(LEFT))": PDesk
-    "&kp LG(LC(RIGHT))": NDesk
-    "&kp LG(LC(LS(A)))": PinA.
-    "&kp LG(LC(LS(Q)))": PinW.
-
-    "&swapper": NWin
-    "&kp LS(TAB)": PWin
-    "&dot_spc": Sentence
-    "&num_dance": { "t": "Smart"}
-    "&magic_shift": { "t": Magic, "h": "Shift" }
-    "&smart_mouse": Smart Mouse
-
-    "&hml LS(LALT)TAB": Tab
-    "&hm_combo_ldr": Leader
-    "&hm_combo_ldrsh": Shift+Leader
-    "&hm_combo_lpar": { "t": "< (" }
-    "&hm_combo_rpar": { "t": "> )"}
-    "&kp LBKT": { "t": "{ ["}
-    "&kp RBKT": { "t": "} ]"}
+    "&kp LC(LS(LG(N4)))": Shot
+    "&kp LG(W)": Close
+    "&kp LG(C)": Copy
+    "&kp LG(V)": Paste
+    "&kp LG(X)": Cut
+    "&kp LG(Q)": Quit
+    "&kp LG(S)": Save
+    "&kp LG(A)": All
+    "&sk LGUI": Gui
+    "&sk LS(LC(LALT))": Meh
+    "&sk LS(LC(LA(LGUI)))": Hyper
+    "&gr_sqt": { "t": "'", "s": "_" }
+    "&gr_comma": { "t": ",", "s": "?" }
+    "&gr_minus": { "t": "-", "s": "\"" }
+    "&gr_fslh": { "t": "/", "s": "<" }
+    "&sl 5": { "t": "Fn", "h": "one-shot" }
+    "&tog 1": Lock
+    "&tog 2": Lock
+    "&tog 5": Lock
 
     "&mmv MOVE_UP": Mouse ↑
     "&mmv MOVE_DOWN": Mouse ↓
@@ -53,20 +38,16 @@ parse_config:
 
     "&mkp LCLK": Left Click
     "&mkp RCLK": Right Click
-    "&mkp MCLK": Middle Click
-    "&mkp MB4": Back Click
-    "&mkp MB5": Forward Click
+
+    "&kp LBKT": { "t": "[", "s": "{" }
+    "&kp RBKT": { "t": "]", "s": "}" }
 
   trans_legend: { "t": "", "type": "trans" }
 
   zmk_combos:
-    combo_cut: { align: bottom, o: 0.15 }
-    combo_ldrsh: { align: top, o: 1.35 }
-
-    combo_lt: { hidden: true }
-    combo_gt: { hidden: true }
-    combo_lbrc: { hidden: true }
-    combo_rbrc: { hidden: true }
+    combo_enter: { align: top, o: 0.2 }
+    combo_esc_r: { align: top, o: 0.2 }
+    combo_quote: { k: "Quote" }
 
   zmk_keycode_map:
     # custom mappings
@@ -105,6 +86,7 @@ parse_config:
     C_VOL_DN: $$mdi:volume-medium$$
     C_NEXT: $$mdi:skip-forward$$
     C_PREV: $$mdi:skip-backward$$
+    C_FF: $$mdi:skip-forward$$
 
     # defaults
     AMPERSAND: "&"
@@ -175,7 +157,7 @@ parse_config:
 draw_config:
   append_colon_to_layer_header: false
   dark_mode: false
-  footer_text: "urob/zmk-config"
+  footer_text: "jellydn/zmk-config"
   glyph_tap_size: 15
   glyph_hold_size: 12
   glyph_shifted_size: 10
@@ -247,11 +229,6 @@ draw_config:
     text.bl, use.bl { fill: var(--color-num); }
     text.br, use.br { fill: var(--color-sys); }
 
-    .keypos-30 text.hold { fill: var(--color-nav); }
-    .keypos-31 text.hold { fill: var(--color-fn); }
-    .keypos-32 text.hold { fill: var(--color-num); font-size: 15px; }
-    .keypos-32 text.tap  { fill: var(--color-num); }
-    .keypos-33 text.hold { font-size: 15px; }
 
     .icon-tabler > path                             { fill: inherit; stroke: inherit; stroke-width: 2; }
     .icon-tabler > path[stroke="none"][fill="none"] { visibility: hidden; }
