@@ -27,7 +27,7 @@ Miryoku-style thumb layers.
 
   | Keys    | Output       | Keys  | Output       |
   | ------- | ------------ | ----- | ------------ |
-  | B L     | Esc          | F O   | Esc          |
+  | B L     | Esc          | F O   | sticky Meh   |
   | L D     | sticky Gui   | F U   | Esc          |
   | B L D   | Cmd+Q        | O U   | `'`          |
   | L W     | Enter        | . -   | sticky Meh   |

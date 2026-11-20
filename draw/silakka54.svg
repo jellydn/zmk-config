@@ -376,7 +376,7 @@ text.br, use.br { fill: var(--color-sys); }
 </g>
 <g class="combo combopos-7">
 <rect rx="6" ry="6" x="504" y="78" width="28" height="26" class="combo"/>
-<text x="518" y="91" class="combo tap">Esc</text>
+<text x="518" y="91" class="combo tap">Meh</text>
 </g>
 <g class="combo combopos-8">
 <path d="M546,44 h-50 a6.0,6.0 0 0 0 -6.0,6.0 v30" class="combo"/>

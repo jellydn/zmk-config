@@ -46,7 +46,7 @@ parse_config:
 
   zmk_combos:
     combo_enter: { align: top, o: 0.2 }
-    combo_esc_r2: { align: top, o: 0.2 }
+    combo_esc_r: { align: top, o: 0.2 }
     combo_quote: { k: "Quote" }
 
   zmk_keycode_map:
