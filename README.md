@@ -56,15 +56,56 @@ gets a small `config/<board>.keymap` that defines `ZMK_BASE_LAYER` to drop the n
 extra keys, then includes `base.keymap`. Combos and HRM trigger keys use the
 [zmk-helpers](https://github.com/urob/zmk-helpers) key labels, so they move with the layout.
 
-## Build and flash
+## Build
 
 Every push or pull request that touches `config/**` or `build.yaml` builds the firmware in GitHub
-Actions (`Build ZMK firmware (nix)`). Download the `.uf2` files from the run's artifacts.
-
-To flash a half: hold the BOOT button while you plug it in (or double-tap reset), then copy the
-matching `.uf2` to the `RPI-RP2` drive. Flash both halves. The left half is the central and connects
-to the computer.
+Actions (`Build ZMK firmware (nix)`).
 
 For a local build environment, see urob's
 [workspace notes](https://github.com/urob/zmk-config#part-i-the-workspace) (`just init`, then
 `just build silakka54`).
+
+## How to flash
+
+### Silakka54 (ZMK)
+
+**Where the buttons are.** Each half has an
+[RP2040-Zero](https://www.waveshare.com/wiki/RP2040-Zero) controller. Its two small buttons sit
+next to its USB-C port, and the board labels them BOOT and RESET:
+
+```text
+        ┌───[ USB-C ]───┐
+        │ (BOOT) (RESET)│   ← labels are printed next to each button
+        │               │
+        │   RP2040-Zero │
+        └───────────────┘
+```
+
+On the original Silakka54 build the right controller is mounted upside down, so its buttons face the
+PCB. Press them with a non-metal stick (the
+[Silakka54 wiki](https://github.com/Squalius-cephalus/silakka54/wiki/Firmware-Update) has a
+3D-printable tool).
+
+**Steps**
+
+1. Open the latest green `Build ZMK firmware (nix)` run in the Actions tab and download the
+   `firmware` artifact. It holds `silakka54_left-rpi_pico__zmk-zmk.uf2` and
+   `silakka54_right-rpi_pico__zmk-zmk.uf2`.
+2. Unplug the USB cable, then unplug the TRRS cable between the halves.
+3. Left half: hold BOOT and plug the USB cable into the left half, then let go of BOOT. If it is
+   already plugged in, hold BOOT, press RESET, then let go of BOOT.
+4. A drive named `RPI-RP2` opens. Copy `silakka54_left-…uf2` to it. The drive closes by itself when
+   the flash is done.
+5. Unplug the USB cable. Do steps 3 and 4 on the right half with `silakka54_right-…uf2`.
+6. With the USB cable unplugged, connect the TRRS cable.
+7. Plug the USB cable into the **left** half. The left half is the central; the right half gets
+   power and sends its keys through the TRRS cable.
+
+**Troubleshooting**
+
+- One half does not type: flash that half again with its own file. Left and right files are
+  different; do not swap them.
+- No `RPI-RP2` drive: use a USB cable that carries data, plug in straight to the computer, and try
+  BOOT + RESET again.
+- Never plug in or unplug the TRRS cable while the USB cable is connected. This can short the
+  controllers.
