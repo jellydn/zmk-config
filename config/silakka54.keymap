@@ -1,0 +1,4 @@
+// The layers in base.keymap match this board 1:1, so no ZMK_BASE_LAYER
+// adapter is needed here.
+#include "zmk-helpers/key-labels/54.h"
+#include "base.keymap"
