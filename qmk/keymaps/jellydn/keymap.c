@@ -76,6 +76,7 @@ void via_init_kb(void) {
 
 void keyboard_post_init_user(void) {
     if (vial_eeprom_was_reset) {
+        rgb_matrix_enable(); // the setters below do nothing while RGB is off
         rgb_matrix_mode(RGB_MATRIX_TYPING_HEATMAP);
         rgb_matrix_sethsv(RGB_MATRIX_DEFAULT_HUE, RGB_MATRIX_DEFAULT_SAT, RGB_MATRIX_DEFAULT_VAL);
     }
