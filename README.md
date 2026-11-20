@@ -19,7 +19,8 @@ Miryoku-style thumb layers.
 
 - **Base**: Graphite with home-row mods `Gui Alt Ctrl Shift` on `N R T S` and the mirror,
   `Shift Ctrl Alt Gui`, on `H A E I`
-  (urob's "timeless" HRMs: a hold resolves only with a key on the other hand or a thumb).
+  (urob's "timeless" HRMs: a hold resolves early only with a key on the other hand or a thumb; a
+  key held for 280 ms on its own also becomes the modifier, and then it applies to any key).
 - **Thumbs** (left to right): `=`, `Space`/Nav, `Tab`/Mouse, `Enter`/Sym, `Bksp`/Num, `;`.
 - **Layers**: Nav (arrows, Home/End, PgUp/PgDn), Mouse (mouse keys, Cmd shortcuts, one-shot Fn),
   Sym (shifted Num), Num (numpad), Fn (F-keys, media). `Lock` keeps the current layer on until you
@@ -80,9 +81,9 @@ controller is mounted upside down, so its buttons face the PCB. Press them with 
 
 **Steps**
 
-1. Open the latest green `Build ZMK firmware (nix)` run in the Actions tab and download the
-   `firmware` artifact. It holds `silakka54_left-rpi_pico__zmk-zmk.uf2` and
-   `silakka54_right-rpi_pico__zmk-zmk.uf2`.
+1. In the Actions tab, filter `Build ZMK firmware (nix)` by your branch (`main` once merged), open
+   the green run for the commit you want, and download the `firmware` artifact. It holds
+   `silakka54_left-rpi_pico__zmk-zmk.uf2` and `silakka54_right-rpi_pico__zmk-zmk.uf2`.
 2. Unplug the USB cable, then unplug the TRRS cable between the halves.
 3. Left half: hold BOOT and plug the USB cable into the left half, then let go of BOOT. If it is
    already plugged in, hold BOOT, press RESET, then let go of BOOT.
