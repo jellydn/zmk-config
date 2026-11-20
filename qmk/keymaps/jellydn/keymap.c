@@ -66,6 +66,40 @@ bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode
     return get_highest_layer(layer_state) == _BASE;
 }
 
+// Flow Tap (150 ms in the .vil) turns a home-row mod into a tap when it follows
+// a typing key within the term, like require-prior-idle-ms on the Silakka54.
+// Vial asks this function about both keys: the tap-hold key being decided and
+// the key before it. Space/Nav counts as typing before a home-row mod, but is
+// never forced to a tap itself, so holding it for Nav right after a letter
+// still works (ZMK's layer-taps have no idle rule either).
+static bool space_was_tapped_last;
+
+bool is_flow_tap_key(uint16_t keycode) {
+    if ((get_mods() & (MOD_MASK_CG | MOD_BIT_LALT)) != 0) {
+        return false; // a hotkey, not typing (QMK's default rule)
+    }
+    if (keycode == LT(_NAV, KC_SPC)) {
+        return space_was_tapped_last;
+    }
+    if (IS_QK_LAYER_TAP(keycode)) {
+        return false;
+    }
+    switch (get_tap_keycode(keycode)) {
+        case KC_A ... KC_Z:
+        case KC_DOT:
+        case KC_COMM:
+        case KC_SCLN:
+        case KC_SLSH:
+            return true;
+    }
+    return false;
+}
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    space_was_tapped_last = keycode == LT(_NAV, KC_SPC) && record->tap.count > 0;
+    return true;
+}
+
 // The .vil holds no LED settings, so select Typing Heatmap when Vial resets its
 // EEPROM (first boot of each new build). Changes made in Vial stay until then.
 static bool vial_eeprom_was_reset;

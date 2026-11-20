@@ -18,9 +18,8 @@ Miryoku-style thumb layers.
 ## Keymap
 
 - **Base**: Graphite with home-row mods `Gui Alt Ctrl Shift` on `N R T S` and the mirror,
-  `Shift Ctrl Alt Gui`, on `H A E I`
-  (urob's "timeless" HRMs: a hold resolves early only with a key on the other hand or a thumb; a
-  key held for 280 ms on its own also becomes the modifier, and then it applies to any key).
+  `Shift Ctrl Alt Gui`, on `H A E I`. They use urob's "timeless" setup; see
+  [Home-row mods](#home-row-mods).
 - **Thumbs** (left to right): `=`, `Space`/Nav, `Tab`/Mouse, `Enter`/Sym, `Bksp`/Num, `;`.
 - **Layers**: Nav (arrows, Home/End, PgUp/PgDn), Mouse (mouse keys, Cmd shortcuts, one-shot Fn),
   Sym (shifted Num), Num (numpad), Fn (F-keys, media). `Lock` keeps the current layer on until you
@@ -40,6 +39,46 @@ Miryoku-style thumb layers.
   Shift+`/` = `<`.
 - **Mouse keys** match the Vial mouse key settings (linear ramp to 4000 px/s in 600 ms; wheel to
   100 steps/s in 3.2 s).
+
+## Home-row mods
+
+Plain home-row mods decide by time: hold past the tapping term for a mod, release before it for a
+letter. Fast rolls then give stray mods, and slow letters give stray taps. urob's
+["timeless" setup](https://github.com/urob/zmk-config#timeless-homerow-mods) decides by what you
+do instead:
+
+1. **Long tapping term.** Holding a letter a bit too long does not give a mod.
+2. **Mod as soon as another key is tapped.** Hold a mod, then press *and release* another key:
+   the mod applies at once, without waiting for the tapping term.
+3. **Letter at once while typing.** A home-row key pressed within 150 ms after a typing key is
+   a letter at once. This removes the typing delay and most misfires on fast rolls.
+4. **Other hand only.** The mod applies only when the next key is on the other hand or a thumb,
+   so same-hand rolls such as `rt` in "start" stay letters.
+5. **Same-hand mods still stack.** The hand check waits for the next key's *release*, so
+   Ctrl+Shift on one hand works.
+
+A key held past the tapping term on its own also becomes the mod, for a mod with a key on the same
+hand, or a mod on its own.
+
+| Step                      | Silakka54 (ZMK, `config/base.keymap`) | Corne (Vial, QMK Settings in the `.vil`) |
+| ------------------------- | ------------------------------------- | ---------------------------------------- |
+| 1. Tapping term           | 280 ms                                | 200 ms                                   |
+| 2. Mod on another tap     | `flavor = "balanced"`                 | Permissive Hold: on                      |
+| 3. Letter while typing    | `require-prior-idle-ms = <150>`       | Flow Tap: 150 ms (home-row mods only)    |
+| 4. Other hand only        | `hold-trigger-key-positions`: other hand, all thumbs (and the other number row) | Chordal Hold: on |
+| 5. Same-hand mods stack   | `hold-trigger-on-release`             | Chordal Hold: a run of same-hand mods followed by an other-hand key all become mods |
+| Quick tap (tap, then hold to repeat) | 200 ms                     | 200 ms                                   |
+
+- Step 3 covers only the home-row mods on both boards. The thumb layer-taps never resolve early as
+  a tap, so you can hold `Space` for Nav right after a letter. On the Corne, Vial's Flow Tap would
+  also catch `Space`/Nav, so `keymap.c` limits it with `is_flow_tap_key`. A tapped `Space` still
+  counts as typing before a home-row mod.
+- "Typing key" differs a little. On the Silakka54 it is any key press. On the Corne it is a letter,
+  `.` `,` `;` `/` or a tapped `Space`, with no Cmd, Ctrl or left Alt held (QMK's default rule).
+- The Silakka54 combos use the same 150 ms idle rule, so fast rolls such as `bl` type letters, not
+  Esc. Vial combos have no idle rule.
+- Vial resets Permissive Hold, Chordal Hold and Flow Tap to off on every new build. Load the `.vil`
+  after every flash.
 
 ## Layout of the repo
 
@@ -69,8 +108,8 @@ extra keys, then includes `base.keymap`. Combos and HRM trigger keys use the
 The extra keys hold ←/→ (EX1) and Play/Pause / Next Track (EX2). The `.vil` is the single source of truth for
 combos, key overrides, macro M0 and QMK Settings: Vial keeps them in EEPROM, not in `keymap.c`, and
 erases them on the first boot of every new build. **Load the `.vil` after every flash.** The firmware
-itself only adds two things Vial cannot store: combos fire on the base layer only, and the LEDs start
-on Typing Heatmap.
+itself only adds three things Vial cannot store: combos fire on the base layer only, Flow Tap
+covers the home-row mods only, and the LEDs start on Typing Heatmap.
 
 > [!WARNING]
 > **The QMK keymap (`keymap.c`) is UNTESTED on hardware.** Its layers match the `.vil` key for key,
