@@ -68,18 +68,26 @@ bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode
 
 // Flow Tap (150 ms in the .vil) turns a home-row mod into a tap when it follows
 // a typing key within the term, like require-prior-idle-ms on the Silakka54.
-// Vial asks this function about both keys: the tap-hold key being decided and
-// the key before it. Space/Nav counts as typing before a home-row mod, but is
-// never forced to a tap itself, so holding it for Nav right after a letter
-// still works (ZMK's layer-taps have no idle rule either).
-static bool space_was_tapped_last;
+// Vial asks is_flow_tap_key about both keys: the tap-hold key being decided and
+// the key before it, which QMK records only when it was tapped. Space/Nav counts
+// as the key before, but is never forced to a tap itself, so holding it for Nav
+// right after a letter still works (ZMK's layer-taps have no idle rule either).
+// It is the key being decided exactly while it is held down.
+static bool space_nav_held;
+
+bool pre_process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (keycode == LT(_NAV, KC_SPC)) {
+        space_nav_held = record->event.pressed;
+    }
+    return true;
+}
 
 bool is_flow_tap_key(uint16_t keycode) {
     if ((get_mods() & (MOD_MASK_CG | MOD_BIT_LALT)) != 0) {
         return false; // a hotkey, not typing (QMK's default rule)
     }
     if (keycode == LT(_NAV, KC_SPC)) {
-        return space_was_tapped_last;
+        return !space_nav_held;
     }
     if (IS_QK_LAYER_TAP(keycode)) {
         return false;
@@ -93,11 +101,6 @@ bool is_flow_tap_key(uint16_t keycode) {
             return true;
     }
     return false;
-}
-
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    space_was_tapped_last = keycode == LT(_NAV, KC_SPC) && record->tap.count > 0;
-    return true;
 }
 
 // The .vil holds no LED settings, so select Typing Heatmap when Vial resets its
