@@ -11,7 +11,7 @@
   Base layer (Graphite):  LT4 LT3 LT2 LT1 = B L D W    RT1 RT2 RT3 = F O U
                           LB4 LB3 LB2 = Q X M    RB2 RB3     = . -    */
 
-#define COMBO_TERM_FAST 35 // Vial combo term
+#define COMBO_TERM_FAST 50 // same as the Corne Vial combo term
 #define COMBO_IDLE_FAST 150
 
 /* Left hand */
