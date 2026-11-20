@@ -65,7 +65,7 @@ do instead:
 A key held past the tapping term on its own also becomes the mod, for a mod with a key on the same
 hand, or a mod on its own.
 
-| Step                      | Silakka54 (ZMK, `config/base.keymap`) | Corne (Vial, QMK Settings in the `.vil`) |
+| Step                      | Silakka54 (ZMK, `config/base.keymap`) | Corne and Silakka54 Vial (QMK Settings in the `.vil`) |
 | ------------------------- | ------------------------------------- | ---------------------------------------- |
 | 1. Tapping term           | 280 ms                                | 200 ms                                   |
 | 2. Mod on another tap     | `flavor = "balanced"`                 | Permissive Hold: on                      |
@@ -75,12 +75,12 @@ hand, or a mod on its own.
 | Quick tap (tap, then hold to repeat) | 200 ms                     | 200 ms                                   |
 
 - Step 3 covers only the home-row mods on both boards. The thumb layer-taps never resolve early as
-  a tap, so you can hold `Space` for Nav right after a letter. On the Corne, Vial's Flow Tap would
-  also catch `Space`/Nav, so `keymap.c` limits it with `is_flow_tap_key`. A tapped `Space` still
+  a tap, so you can hold `Space` for Nav right after a letter. In the Vial builds, Flow Tap would
+  also catch `Space`/Nav, so each `keymap.c` limits it with `is_flow_tap_key`. A tapped `Space` still
   counts as typing before a home-row mod.
-- "Typing key" differs a little. On the Silakka54 it is any key press. On the Corne it is a letter,
+- "Typing key" differs a little. With ZMK it is any key press. With Vial it is a letter,
   `.` `,` `;` `/` or a tapped `Space`, with no Cmd, Ctrl or left Alt held (QMK's default rule).
-- The Silakka54 combos use the same 150 ms idle rule, so fast rolls such as `bl` type letters, not
+- The ZMK combos use the same 150 ms idle rule, so fast rolls such as `bl` type letters, not
   Esc. Vial combos have no idle rule.
 - Vial resets Permissive Hold, Chordal Hold and Flow Tap to off on every new build. Load the `.vil`
   after every flash.
@@ -138,8 +138,9 @@ A Vial build of the same layout, next to the ZMK one:
 
 As on the Corne, the `.vil` is the single source of truth for combos, key overrides, macro M0 and
 QMK Settings, and Vial erases them on the first boot of every new build. **Load the `.vil` after
-every flash.** `keymap.c` matches the `.vil` layers key for key and only adds one thing Vial cannot
-store: combos fire on the base layer only. The board has no LEDs to set. There is no Leader or
+every flash.** `keymap.c` matches the `.vil` layers key for key and only adds two things Vial cannot
+store: combos fire on the base layer only, and Flow Tap covers the home-row mods only (see
+[Home-row mods](#home-row-mods)). The board has no LEDs to set. There is no Leader or
 bootloader key; enter the bootloader with the buttons or bootmagic.
 
 ## Build
