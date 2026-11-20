@@ -8,12 +8,17 @@ Miryoku-style thumb layers.
 
 ![Keymap](draw/silakka54.svg)
 
+**[Download firmware](https://github.com/jellydn/zmk-vial-config/releases/tag/latest)**: every push to
+`main` builds all firmware (Silakka54 ZMK left/right, Silakka54 Vial, Corne v4.1 Vial) and puts the
+`.uf2` files, both `.vil` files and the keymap images in the `latest` release.
+
 ## Keyboards
 
 | Keyboard  | Status    | Build target                             | Notes                                       |
 | --------- | --------- | ---------------------------------------- | ------------------------------------------- |
 | Silakka54 | supported | `rpi_pico//zmk` + `silakka54_left/right` | Onboard RP2040, full-duplex wired split     |
 | Corne v4.1 | QMK/Vial | `crkbd/rev4_1/standard` (see `qmk/`)    | ZMK lacks single-wire (half-duplex) split on RP2040, so it runs Vial |
+| Silakka54 | QMK/Vial (untested) | `silakka54` (see `qmk/silakka54/`) | Same layout as the ZMK build, for Vial users |
 
 ## Keymap
 
@@ -116,6 +121,27 @@ covers the home-row mods only, and the LEDs start on Typing Heatmap.
 > so the layout before you load the `.vil` should be the same. The tested path is Vial with
 > `corne-v4.1-graphite.vil` loaded.
 
+## Silakka54 (QMK/Vial)
+
+> [!WARNING]
+> **The Silakka54 Vial firmware is UNTESTED on hardware.** The ZMK build is the main one for this
+> board.
+
+A Vial build of the same layout, next to the ZMK one:
+
+- `qmk/silakka54/`: QMK keymap with Vial enabled, built on the Silakka54 definition in vial-qmk
+  (RP2040-Zero, full-duplex serial on GP0/GP1). The `Build Silakka54 Vial firmware` workflow builds
+  one `.uf2` for both halves.
+- `qmk/silakka54-graphite.vil`: the full Vial setup: the 6 layers of `config/base.keymap`, the 11
+  combos at 50 ms, the 4 Graphite shift overrides and macro M0 (area screenshot). Load it in Vial
+  after you flash; see [How to flash](#silakka54-vial).
+
+As on the Corne, the `.vil` is the single source of truth for combos, key overrides, macro M0 and
+QMK Settings, and Vial erases them on the first boot of every new build. **Load the `.vil` after
+every flash.** `keymap.c` matches the `.vil` layers key for key and only adds one thing Vial cannot
+store: combos fire on the base layer only. The board has no LEDs to set. There is no Leader or
+bootloader key; enter the bootloader with the buttons or bootmagic.
+
 ## Build
 
 Every push or pull request that touches `config/**` or `build.yaml` builds the firmware in GitHub
@@ -126,6 +152,10 @@ For a local build environment, see urob's
 `just build silakka54`).
 
 ## How to flash
+
+The [latest release](https://github.com/jellydn/zmk-vial-config/releases/tag/latest) has every file
+built from `main`. Use it instead of the Actions artifacts in step 1 below, unless you want a build
+from another branch.
 
 ### Silakka54 (ZMK)
 
@@ -161,6 +191,31 @@ controller is mounted upside down, so its buttons face the PCB. Press them with 
   BOOT + RESET again.
 - Never plug in or unplug the TRRS cable while the USB cable is connected. This can short the
   controllers.
+
+### Silakka54 (Vial)
+
+> [!WARNING]
+> UNTESTED on hardware. If it does not work, flash the [ZMK firmware](#silakka54-zmk) again.
+
+The buttons are the same as for ZMK (see the diagram above). The Vial firmware also has bootmagic:
+hold the **outer top key** of a half (`` ` `` on the left, `⏩` on the right) while you plug the USB
+cable into that half.
+
+1. In the Actions tab, filter `Build Silakka54 Vial firmware` by your branch (`main` once merged),
+   open the green run for the commit you want, and download the `silakka54-vial` artifact. It holds
+   `silakka54_jellydn.uf2` and `silakka54-graphite.vil`. Both halves use the same `.uf2`.
+2. Unplug the USB cable, then unplug the TRRS cable between the halves.
+3. Left half: hold BOOT (or the outer top key) and plug the USB cable into the left half, then let
+   go. A drive named `RPI-RP2` opens. Copy `silakka54_jellydn.uf2` to it; the drive closes by
+   itself when the flash is done.
+4. Unplug the USB cable. Do step 3 on the right half with the same file.
+5. With the USB cable unplugged, connect the TRRS cable.
+6. Plug the USB cable into the **left** half. QMK treats the half with USB as the left half.
+7. Open [Vial](https://get.vial.today) (desktop app or web), choose **File → Load saved layout** and
+   pick `silakka54-graphite.vil`. Without this step there are **no combos**, no Graphite shift
+   symbols and no M0 screenshot macro. Do it again after every new flash.
+
+To go back to ZMK, put each half in the bootloader the same way and copy its ZMK `.uf2`.
 
 ### Corne v4.1 (Vial)
 

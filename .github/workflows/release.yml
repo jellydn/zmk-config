@@ -1,0 +1,57 @@
+name: Release firmware
+# Builds every firmware on each push to main and publishes it as the rolling
+# "latest" release. Pull requests that change this file run the builds and the
+# collect step, but do not publish.
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+    paths:
+      - .github/workflows/release.yml
+
+permissions:
+  contents: read
+
+# Two quick merges must not delete and recreate the release at the same time.
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  zmk:
+    uses: ./.github/workflows/build-nix.yml
+  corne-vial:
+    uses: ./.github/workflows/build-qmk.yml
+  silakka54-vial:
+    uses: ./.github/workflows/build-qmk-silakka54.yml
+
+  release:
+    needs: [zmk, corne-vial, silakka54-vial]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/download-artifact@v7
+        with:
+          path: artifacts
+
+      - name: Collect files
+        run: |
+          mkdir release
+          find artifacts -type f \( -name '*.uf2' -o -name '*.vil' \) -exec cp {} release/ \;
+          cp draw/*.svg release/
+          ls -l release
+          test "$(ls release/*.uf2 | wc -l)" -eq 4 # ZMK left + right, Corne Vial, Silakka54 Vial
+
+      - name: Publish the "latest" release
+        if: github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          gh release delete latest --cleanup-tag --yes || true
+          gh release create latest release/* --target "$GITHUB_SHA" --title "Firmware ($(date -u +%F), ${GITHUB_SHA::7})" --notes "All firmware built from ${GITHUB_SHA}. See the README for how to flash. Load the .vil in Vial after every Vial flash."
