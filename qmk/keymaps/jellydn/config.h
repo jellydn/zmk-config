@@ -9,7 +9,7 @@
 // corne-v4.1-graphite.vil. Loading the .vil also sets permissive hold and
 // chordal hold, which Vial resets to off.
 #define TAPPING_TERM 200
-#define COMBO_TERM 35
+#define COMBO_TERM 50
 #define COMBO_SHOULD_TRIGGER // base layer only, see keymap.c
 #define ONESHOT_TIMEOUT 5000
 
