@@ -80,39 +80,14 @@ flash expr: (build expr)
         just _flash_single "$board" "$shield" "$artifact"
     done
 
-# parse & plot keymap
+# parse & plot keymap (same output as the "Draw keymap" workflow)
 [group('build & draw')]
-draw: _check_yq_version
+draw:
     #!/usr/bin/env bash
     set -euo pipefail
-    keymap -c "{{ draw }}/config.yaml" parse -z "{{ config }}/base.keymap" --virtual-layers Combos >"{{ draw }}/base.yaml"
-    yq -Yi '.combos.[].l = ["Combos"]' "{{ draw }}/base.yaml"
-    keymap -c "{{ draw }}/config.yaml" draw "{{ draw }}/base.yaml" -k "ferris/sweep" >"{{ draw }}/base.svg"
-
-    jq_expr='
-        def extract_label: if type == "string" then . else .t end;
-        def is_transparent: type == "object" and (.type == "trans" or .type == "held");
-        .layers = {
-        Base: [
-            [.layers.Base, .layers.Nav, .layers.Fn, .layers.Num, .layers.Sys] | transpose[] |
-            (.[0] | if type == "string" then {t: .} else . end) as $base |
-            (.[1] | if is_transparent then null else extract_label end) as $nav |
-            (.[2] | if is_transparent then null else extract_label end) as $fn |
-            (.[3] | if is_transparent then null else extract_label end) as $num |
-            (.[4] | if is_transparent then null else extract_label end) as $sys |
-            $base
-            + (if $nav == null then {} else {tr: $nav} end)
-            + (if $fn == null then {} else {tl: $fn} end)
-            + (if $num == null then {} else {bl: $num} end)
-            + (if $sys == null then {} else {br: $sys} end)
-        ],
-        Combos: .layers.Combos
-        } |
-        .combos = [.combos[] | .l = ["Combos"]]
-    '
-    yq -y "$jq_expr" "{{ draw }}/base.yaml" >"{{ draw }}/overview.yaml"
-    keymap -c "{{ draw }}/config.yaml" draw "{{ draw }}/overview.yaml" -k "ferris/sweep" >"{{ draw }}/overview.svg"
-    sed -i '/<text.*class="label"/d' "{{ draw }}/overview.svg"
+    keymap -c "{{ draw }}/config.yaml" parse -z "{{ config }}/silakka54.keymap" >"{{ draw }}/silakka54.yaml"
+    keymap -c "{{ draw }}/config.yaml" draw "{{ draw }}/silakka54.yaml" \
+        -d "{{ config }}/boards/shields/silakka54/silakka54-layouts.dtsi" >"{{ draw }}/silakka54.svg"
 
 # initialize the west workspace
 [group('workspace')]
