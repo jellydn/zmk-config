@@ -21,3 +21,8 @@
 #define MOUSEKEY_WHEEL_INTERVAL 80
 #define MOUSEKEY_WHEEL_MAX_SPEED 8
 #define MOUSEKEY_WHEEL_TIME_TO_MAX 40
+
+// LEDs: Typing Heatmap after an EEPROM reset (keymap.c also selects it when
+// Vial's EEPROM is reset). Brightness stays under the board's cap of 50.
+#define RGB_MATRIX_DEFAULT_MODE RGB_MATRIX_TYPING_HEATMAP
+#define RGB_MATRIX_DEFAULT_VAL 40

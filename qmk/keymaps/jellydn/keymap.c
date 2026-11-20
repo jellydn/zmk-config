@@ -1,7 +1,9 @@
 // Corne v4.1 (crkbd/rev4_1/standard): Graphite Miryoku layout, synced with the
 // Silakka54 keymap. Generated from corne-v4.1-graphite.vil; keep both in sync.
-// Combos, key overrides and macro M0 live in Vial (load the .vil).
+// Macro M0 lives in Vial; keymap.c sends its chord directly.
 #include QMK_KEYBOARD_H
+#include "dynamic_keymap.h"
+#include "qmk_settings.h"
 
 enum layers { _BASE, _NAV, _MOUSE, _SYM, _NUM, _FN };
 
@@ -59,3 +61,63 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     [_FN] = { ENCODER_CCW_CW(KC_TRNS, KC_TRNS), ENCODER_CCW_CW(KC_TRNS, KC_TRNS), ENCODER_CCW_CW(KC_TRNS, KC_TRNS), ENCODER_CCW_CW(KC_TRNS, KC_TRNS) }
 };
 #endif
+
+// Vial keeps combos, key overrides and QMK Settings in EEPROM and wipes them
+// when that EEPROM is reset: on the first boot of every new build (vial-qmk
+// stamps each build with a random BUILD_ID) and on a bootmagic reset. Seed them
+// here on that reset so the firmware alone matches the .vil. Vial edits stay
+// until the next reset. keymap.c cannot define key_combos itself: Vial owns it,
+// so EEPROM is the single source and nothing fires twice.
+static const vial_combo_entry_t default_combos[] = {
+    {{KC_B, KC_L}, KC_ESC},
+    {{KC_L, KC_D}, OSM(MOD_LGUI)},
+    {{KC_B, KC_L, KC_D}, LGUI(KC_Q)},
+    {{KC_L, KC_W}, KC_ENT},
+    {{KC_D, KC_W}, OSM(MOD_HYPR)},
+    {{KC_Q, KC_X}, LGUI(KC_X)},
+    {{KC_X, KC_M}, LGUI(KC_C)},
+    {{KC_F, KC_O}, OSM(MOD_MEH)},
+    {{KC_F, KC_U}, KC_ESC},
+    {{KC_O, KC_U}, KC_QUOT},
+    {{KC_DOT, KC_MINS}, OSM(MOD_MEH)},
+};
+
+// Graphite shifted pairs, base layer only, like the .vil.
+#define SHIFT_OVERRIDE(trigger_kc, replacement_kc)                                   \
+    {.trigger = trigger_kc, .replacement = replacement_kc, .layers = 1 << _BASE,     \
+     .trigger_mods = MOD_BIT(KC_LSFT) | MOD_BIT(KC_RSFT),                            \
+     .options = vial_ko_enabled | vial_ko_option_activation_trigger_down |           \
+                vial_ko_option_activation_required_mod_down |                        \
+                vial_ko_option_activation_negative_mod_up}
+
+static const vial_key_override_entry_t default_key_overrides[] = {
+    SHIFT_OVERRIDE(KC_QUOT, LSFT(KC_MINS)),
+    SHIFT_OVERRIDE(KC_COMM, LSFT(KC_SLSH)),
+    SHIFT_OVERRIDE(KC_SLSH, LSFT(KC_COMM)),
+    SHIFT_OVERRIDE(KC_MINS, LSFT(KC_QUOT)),
+};
+
+static bool vial_eeprom_was_reset;
+
+void via_init_kb(void) {
+    vial_eeprom_was_reset = !via_eeprom_is_valid();
+}
+
+void keyboard_post_init_user(void) {
+    if (!vial_eeprom_was_reset) return;
+
+    for (uint8_t i = 0; i < ARRAY_SIZE(default_combos); i++) {
+        dynamic_keymap_set_combo(i, &default_combos[i]);
+    }
+    for (uint8_t i = 0; i < ARRAY_SIZE(default_key_overrides); i++) {
+        dynamic_keymap_set_key_override(i, &default_key_overrides[i]);
+    }
+    // QMK Settings 22 and 26: Vial resets them to off; config.h sets the rest.
+    const uint8_t on = 1;
+    qmk_settings_set(22, &on, sizeof(on)); // permissive hold
+    qmk_settings_set(26, &on, sizeof(on)); // chordal hold
+    vial_init(); // load the new combos and key overrides from EEPROM
+
+    rgb_matrix_mode(RGB_MATRIX_TYPING_HEATMAP);
+    rgb_matrix_sethsv(RGB_MATRIX_DEFAULT_HUE, RGB_MATRIX_DEFAULT_SAT, RGB_MATRIX_DEFAULT_VAL);
+}
