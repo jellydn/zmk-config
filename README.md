@@ -72,6 +72,11 @@ erases them on the first boot of every new build. **Load the `.vil` after every 
 itself only adds two things Vial cannot store: combos fire on the base layer only, and the LEDs start
 on Typing Heatmap.
 
+> [!WARNING]
+> **The QMK keymap (`keymap.c`) is UNTESTED on hardware.** Its layers match the `.vil` key for key,
+> so the layout before you load the `.vil` should be the same. The tested path is Vial with
+> `corne-v4.1-graphite.vil` loaded.
+
 ## Build
 
 Every push or pull request that touches `config/**` or `build.yaml` builds the firmware in GitHub
