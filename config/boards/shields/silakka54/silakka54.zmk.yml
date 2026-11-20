@@ -1,0 +1,12 @@
+file_format: "1"
+id: silakka54
+name: Silakka54
+type: shield
+url: https://github.com/Squalius-cephalus/silakka54
+requires:
+  - rpi_pico
+features:
+  - keys
+siblings:
+  - silakka54_left
+  - silakka54_right
