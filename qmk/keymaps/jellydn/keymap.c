@@ -8,7 +8,7 @@ enum layers { _BASE, _NAV, _MOUSE, _SYM, _NUM, _FN };
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_BASE] = LAYOUT_split_3x6_3_ex2(
               KC_LBRC,          KC_B,          KC_L,          KC_D,          KC_W,          KC_Z,       KC_LEFT,         KC_RIGHT,       KC_QUOT,          KC_F,          KC_O,          KC_U,          KC_J,       KC_RBRC,
-               KC_ESC,  LGUI_T(KC_N),  LALT_T(KC_R),  LCTL_T(KC_T),  LSFT_T(KC_S),          KC_G,        KC_EQL,          KC_MNXT,          KC_Y,  RSFT_T(KC_H),  RCTL_T(KC_A),  RALT_T(KC_E),  RGUI_T(KC_I),       KC_COMM,
+               KC_ESC,  LGUI_T(KC_N),  LALT_T(KC_R),  LCTL_T(KC_T),  LSFT_T(KC_S),          KC_G,       KC_MPLY,          KC_MNXT,          KC_Y,  RSFT_T(KC_H),  RCTL_T(KC_A),  RALT_T(KC_E),  RGUI_T(KC_I),       KC_COMM,
                KC_F13,          KC_Q,          KC_X,          KC_M,          KC_C,          KC_V,                                            KC_K,          KC_P,        KC_DOT,       KC_MINS,       KC_SLSH,        KC_DEL,
                                                             KC_EQL, LT(_NAV, KC_SPC), LT(_MOUSE, KC_TAB),    LT(_SYM, KC_ENT), LT(_NUM, KC_BSPC),       KC_SCLN
     ),

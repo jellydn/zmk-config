@@ -66,7 +66,7 @@ extra keys, then includes `base.keymap`. Combos and HRM trigger keys use the
 - `qmk/corne-v4.1-graphite.vil`: the full Vial setup (layers, combos, key overrides, macro, QMK
   settings). Load it in Vial after you flash; see [How to flash](#corne-v41-vial).
 
-The extra keys hold ←/→ (EX1) and `=` / Next Track (EX2). The `.vil` is the single source of truth for
+The extra keys hold ←/→ (EX1) and Play/Pause / Next Track (EX2). The `.vil` is the single source of truth for
 combos, key overrides, macro M0 and QMK Settings: Vial keeps them in EEPROM, not in `keymap.c`, and
 erases them on the first boot of every new build. **Load the `.vil` after every flash.** The firmware
 itself only adds two things Vial cannot store: combos fire on the base layer only, and the LEDs start
