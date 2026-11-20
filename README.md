@@ -66,11 +66,11 @@ extra keys, then includes `base.keymap`. Combos and HRM trigger keys use the
 - `qmk/corne-v4.1-graphite.vil`: the full Vial setup (layers, combos, key overrides, macro, QMK
   settings). Load it in Vial after you flash; see [How to flash](#corne-v41-vial).
 
-The extra keys hold ←/→ (EX1) and `=` / Next Track (EX2). The firmware works without the `.vil`:
-when Vial's EEPROM is reset (first boot of a new build, or bootmagic), `keymap.c` writes the same
-combos, Graphite shift overrides, permissive/chordal hold and the Typing Heatmap LED effect into it.
-After that, changes you make in Vial stay until the next reset. Only macro M0 is not seeded; its key
-sends Ctrl+Shift+Cmd+4 directly.
+The extra keys hold ←/→ (EX1) and `=` / Next Track (EX2). The `.vil` is the single source of truth for
+combos, key overrides, macro M0 and QMK Settings: Vial keeps them in EEPROM, not in `keymap.c`, and
+erases them on the first boot of every new build. **Load the `.vil` after every flash.** The firmware
+itself only adds two things Vial cannot store: combos fire on the base layer only, and the LEDs start
+on Typing Heatmap.
 
 ## Build
 
@@ -145,19 +145,19 @@ covers them, press them with a non-metal stick between the keys.
 6. With the USB cable unplugged, connect the TRS/TRRS cable (v4.1 takes either).
 7. Plug the USB cable into the **left** half. (The right half also works: the half with USB becomes
    the main half.)
-8. Open [Vial](https://get.vial.today/) and choose **File → Load saved layout**, then pick
-   `corne-v4.1-graphite.vil`. Optional: the firmware already has the same combos, overrides and
-   settings. Load the `.vil` to restore the layout after you changed it in Vial.
+8. **Required after every flash:** open [Vial](https://get.vial.today/), choose **File → Load saved
+   layout** and pick `corne-v4.1-graphite.vil`. Each new build starts with an empty Vial EEPROM:
+   without this step the Corne has **no combos** (no D+W Hyper, no B+L Esc, …), no Graphite shift
+   overrides, and permissive hold and chordal hold off.
 
 Other way into the bootloader: hold the top-row key second from the outer edge (`B` on the left,
 `J` on the right) while you plug in that half. This also erases the Vial settings, so load the
-`.vil` again afterwards if you changed the layout in Vial.
+`.vil` again afterwards.
 
 **Troubleshooting**
 
 - One half does not type: flash that half again.
-- Combos or the Graphite shift symbols do not work: load the `.vil` (step 8), or do a bootmagic
-  reset (hold `B`/`J` while plugging in) to get the firmware defaults back.
+- Combos or the Graphite shift symbols do not work: load the `.vil` again (step 8).
 - A half stops working at random: Corne v4 PCBs are sensitive to radio noise, most often from a
   phone ([foostan/crkbd#265](https://github.com/foostan/crkbd/issues/265)). Plug the USB cable in
   again and keep phones more than 30 cm from the keyboard.
