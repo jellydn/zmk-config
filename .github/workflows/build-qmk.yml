@@ -3,11 +3,13 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - qmk/**
+      - qmk/keymaps/**
+      - qmk/corne-v4.1-graphite.vil
       - .github/workflows/build-qmk.yml
   pull_request:
     paths:
-      - qmk/**
+      - qmk/keymaps/**
+      - qmk/corne-v4.1-graphite.vil
       - .github/workflows/build-qmk.yml
 
 permissions:
