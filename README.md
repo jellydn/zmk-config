@@ -70,21 +70,13 @@ For a local build environment, see urob's
 ### Silakka54 (ZMK)
 
 **Where the buttons are.** Each half has an
-[RP2040-Zero](https://www.waveshare.com/wiki/RP2040-Zero) controller. Its two small buttons sit
-next to its USB-C port, and the board labels them BOOT and RESET:
+[RP2040-Zero](https://www.waveshare.com/wiki/RP2040-Zero) controller at the inner top corner. Its
+BOOT and RESET buttons sit next to its USB-C port. On the original Silakka54 build the right
+controller is mounted upside down, so its buttons face the PCB. Press them with a non-metal stick
+(the [Silakka54 wiki](https://github.com/Squalius-cephalus/silakka54/wiki/Firmware-Update) has a
+3D-printable tool). Check the BOOT/RESET labels printed on your controller.
 
-```text
-        ┌───[ USB-C ]───┐
-        │ (BOOT) (RESET)│   ← labels are printed next to each button
-        │               │
-        │   RP2040-Zero │
-        └───────────────┘
-```
-
-On the original Silakka54 build the right controller is mounted upside down, so its buttons face the
-PCB. Press them with a non-metal stick (the
-[Silakka54 wiki](https://github.com/Squalius-cephalus/silakka54/wiki/Firmware-Update) has a
-3D-printable tool).
+![Silakka54 top view: BOOT and RESET on each controller, USB-C to the computer on the left half, TRRS cable between the halves](draw/flash-silakka54.svg)
 
 **Steps**
 
