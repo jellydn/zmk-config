@@ -1,6 +1,7 @@
 name: Build Silakka54 Vial firmware
 on:
   workflow_dispatch:
+  workflow_call: # used by release.yml
   push:
     paths:
       - qmk/silakka54/**

@@ -1,6 +1,7 @@
 name: Build Corne v4.1 Vial firmware
 on:
   workflow_dispatch:
+  workflow_call: # used by release.yml
   push:
     paths:
       - qmk/keymaps/**
