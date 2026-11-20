@@ -38,6 +38,10 @@ Miryoku-style thumb layers.
 
 - **Graphite shifted pairs** (base layer): Shift+`'` = `_`, Shift+`,` = `?`, Shift+`-` = `"`,
   Shift+`/` = `<`.
+- **Leader key** ([urob/zmk-leader-key](https://github.com/urob/zmk-leader-key)): tap `Leader`, then
+  type `B O O T` (bootloader) or `R E S E T` (restart). It acts on the half where you tapped
+  `Leader`: the right one is on Nav (outer bottom-right key), the left one on Sym and Num (outer
+  bottom-left key). See [How to flash](#silakka54-zmk).
 - **Mouse keys** match the Vial mouse key settings (linear ramp to 4000 px/s in 600 ms; wheel to
   100 steps/s in 3.2 s).
 
@@ -47,6 +51,7 @@ Miryoku-style thumb layers.
 | ---------------------------------- | ------------------------------------ |
 | Layers, HRMs, thumb keys           | `config/base.keymap`                 |
 | Combos                             | `config/combos.dtsi`                 |
+| Leader sequences                   | `config/leader.dtsi`                 |
 | Per-board entry keymap and config  | `config/<board>.keymap`, `.conf`     |
 | Silakka54 shield (pins, layout)    | `config/boards/shields/silakka54/`   |
 | Build targets                      | `build.yaml`                         |
@@ -97,9 +102,22 @@ controller is mounted upside down, so its buttons face the PCB. Press them with 
 (the [Silakka54 wiki](https://github.com/Squalius-cephalus/silakka54/wiki/Firmware-Update) has a
 3D-printable tool). Check the BOOT/RESET labels printed on your controller.
 
-![Silakka54 top view: BOOT and RESET on each controller, USB-C to the computer on the left half, TRRS cable between the halves](draw/flash-silakka54.svg)
+![Silakka54 top view: BOOT and RESET on each controller, Leader keys and their layer thumbs, USB-C to the computer on the left half, TRRS cable between the halves](draw/flash-silakka54.svg)
 
-**Steps**
+**Without the BOOT button (Leader key).** Use this once the halves already run this firmware. Keep
+the TRRS cable connected and plug the USB cable into the half you want to flash:
+
+- **Right half:** move the USB cable to the right half. Hold `Space` (Nav), tap the outer
+  bottom-right key (`Leader`), let go, and type `B O O T`.
+- **Left half:** with the USB cable in the left half, hold `Bksp` (Num) or `Enter` (Sym), tap the
+  outer bottom-left key (`Leader`), let go, and type `B O O T`.
+
+That half restarts as the `RPI-RP2` drive. Copy its `.uf2` (see step 1) to it; after the right
+half, move the USB cable back to the left half. The drive appears only over the USB port of the
+half that restarted, because the TRRS cable carries no USB data. `R E S E T` instead of `B O O T`
+just restarts that half.
+
+**Steps** (with the BOOT button)
 
 1. In the Actions tab, filter `Build ZMK firmware (nix)` by your branch (`main` once merged), open
    the green run for the commit you want, and download the `firmware` artifact. It holds

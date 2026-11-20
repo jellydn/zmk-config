@@ -75,6 +75,7 @@ key labels define `LN0`.
 | Layers, HRMs, thumb keys          | `config/base.keymap`                                     |
 | HRM timing                        | `config/base.keymap` (`tapping-term-ms`, `require-prior-idle-ms`) |
 | Combos                            | `config/combos.dtsi` (position diagram at the top)       |
+| Leader sequences                  | `config/leader.dtsi`                                     |
 | Per-board keys, physical mapping  | `config/<board>.keymap`                                  |
 | Board settings                    | `config/<board>.conf`                                    |
 | Custom shields                    | `config/boards/shields/<name>/`                          |
