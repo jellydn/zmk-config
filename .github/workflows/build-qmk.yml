@@ -23,6 +23,8 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # A normal build takes about 2 minutes; fail fast if apt or pip hangs.
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v7
 
