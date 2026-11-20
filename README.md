@@ -118,14 +118,15 @@ controller is mounted upside down, so its buttons face the PCB. Press them with 
 ### Corne v4.1 (Vial)
 
 **Where the buttons are.** Each half has two small buttons, RESET and BOOT, next to the controller
-chip, just below the bottom key of the middle-finger column (the 3rd column from the outer edge).
-On the left half RESET is the outer button; on the right half BOOT is the outer one. If a keycap
+chip, just below the bottom key of the ring-finger column (the 3rd column from the outer edge). On
+the left half RESET is the outer button; on the right half BOOT is the outer one. If a keycap
 covers them, press them with a non-metal stick between the keys.
 
-![Corne v4 RESET and BOOT buttons](https://github.com/foostan/kbd_firmware/assets/736191/05fd9c4b-12c7-4a32-9606-8fea27bfe7b4)
+![Corne v4.1 top view: RESET and BOOT below the ring-finger column, bootmagic keys B and J, USB-C to the computer on the left half, TRS/TRRS cable between the halves](draw/flash-corne.svg)
 
-<sub>Picture from foostan's
-[Corne v4 firmware guide](https://github.com/foostan/crkbd/blob/main/docs/firmware/rev4/firmware_en.md).</sub>
+<sub>Button positions from foostan's
+[Corne v4 PCB picture](https://github.com/foostan/kbd_firmware/assets/736191/05fd9c4b-12c7-4a32-9606-8fea27bfe7b4)
+([firmware guide](https://github.com/foostan/crkbd/blob/main/docs/firmware/rev4/firmware_en.md)).</sub>
 
 **Steps**
 

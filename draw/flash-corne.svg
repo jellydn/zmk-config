@@ -1,0 +1,95 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='843' height='610' viewBox='0 0 843 610'>
+<defs><marker id='acf222e' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#cf222e'/></marker><marker id='a0969da' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#0969da'/></marker><marker id='a1a7f37' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#1a7f37'/></marker><marker id='a9a6700' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#9a6700'/></marker></defs>
+<rect x='1' y='1' width='841' height='608' rx='14' fill='#ffffff' stroke='#d0d7de' stroke-width='2'/>
+<text x='24.0' y='38.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='20' font-weight='700' fill='#24292f' text-anchor='start'>Corne v4.1 (Vial) · top view · how to flash</text>
+<rect x='30.0' y='166.0' width='342.0' height='249.4' rx='14' fill='#f6f8fa' stroke='#d0d7de' stroke-width='1.5'/>
+<rect x='471.6' y='166.0' width='342.0' height='249.4' rx='14' fill='#f6f8fa' stroke='#d0d7de' stroke-width='1.5'/>
+<rect x='43.0' y='196.8' width='40.0' height='40.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='89.0' y='196.8' width='40.0' height='40.0' rx='6' fill='#fff8c5' stroke='#9a6700' stroke-width='3'/>
+<text x='109.0' y='222.8' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='17' font-weight='700' fill='#9a6700' text-anchor='middle'>B</text>
+<rect x='135.0' y='187.6' width='40.0' height='40.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='181.0' y='183.0' width='40.0' height='40.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='227.0' y='187.6' width='40.0' height='40.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='273.0' y='192.2' width='40.0' height='40.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='319.0' y='215.2' width='40.0' height='40.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='484.6' y='215.2' width='40.0' height='40.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='530.6' y='192.2' width='40.0' height='40.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='576.6' y='187.6' width='40.0' height='40.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='622.6' y='183.0' width='40.0' height='40.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='668.6' y='187.6' width='40.0' height='40.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='714.6' y='196.8' width='40.0' height='40.0' rx='6' fill='#fff8c5' stroke='#9a6700' stroke-width='3'/>
+<text x='734.6' y='222.8' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='17' font-weight='700' fill='#9a6700' text-anchor='middle'>J</text>
+<rect x='760.6' y='196.8' width='40.0' height='40.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='43.0' y='242.8' width='40.0' height='40.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='89.0' y='242.8' width='40.0' height='40.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='135.0' y='233.6' width='40.0' height='40.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='181.0' y='229.0' width='40.0' height='40.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='227.0' y='233.6' width='40.0' height='40.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='273.0' y='238.2' width='40.0' height='40.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='319.0' y='261.2' width='40.0' height='40.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='484.6' y='261.2' width='40.0' height='40.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='530.6' y='238.2' width='40.0' height='40.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='576.6' y='233.6' width='40.0' height='40.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='622.6' y='229.0' width='40.0' height='40.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='668.6' y='233.6' width='40.0' height='40.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='714.6' y='242.8' width='40.0' height='40.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='760.6' y='242.8' width='40.0' height='40.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='43.0' y='288.8' width='40.0' height='40.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='89.0' y='288.8' width='40.0' height='40.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='135.0' y='279.6' width='40.0' height='40.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='181.0' y='275.0' width='40.0' height='40.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='227.0' y='279.6' width='40.0' height='40.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='273.0' y='284.2' width='40.0' height='40.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='530.6' y='284.2' width='40.0' height='40.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='576.6' y='279.6' width='40.0' height='40.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='622.6' y='275.0' width='40.0' height='40.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='668.6' y='279.6' width='40.0' height='40.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='714.6' y='288.8' width='40.0' height='40.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='760.6' y='288.8' width='40.0' height='40.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='227.0' y='353.2' width='40.0' height='40.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='273.0' y='353.2' width='40.0' height='40.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='319.0' y='330.2' width='40.0' height='63.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='484.6' y='330.2' width='40.0' height='63.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='530.6' y='353.2' width='40.0' height='40.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='576.6' y='353.2' width='40.0' height='40.0' rx='6' fill='#eaeef2' stroke='#8c959f' stroke-width='1.5'/>
+<rect x='323.0' y='158.0' width='32.0' height='12.0' rx='4' fill='#0969da' stroke='#0969da' stroke-width='1.5'/>
+<polyline points='339.0,156.0 339.0,84.0' fill='none' stroke='#0969da' stroke-width='4'/>
+<text x='315.0' y='60.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='14' font-weight='700' fill='#0969da' text-anchor='end'>USB-C → computer</text>
+<text x='315.0' y='78.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='13' font-weight='400' fill='#0969da' text-anchor='end'>normal use: plug in the LEFT half</text>
+<rect x='488.6' y='158.0' width='32.0' height='12.0' rx='4' fill='#0969da' stroke='#0969da' stroke-width='1.5'/>
+<polyline points='504.6,156.0 504.6,84.0' fill='none' stroke='#0969da' stroke-width='2' stroke-dasharray='5 4'/>
+<text x='528.6' y='60.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='14' font-weight='700' fill='#0969da' text-anchor='start'>USB-C (right)</text>
+<text x='528.6' y='78.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='13' font-weight='400' fill='#0969da' text-anchor='start'>use it to flash the right half</text>
+<rect x='368.0' y='292.9' width='18.0' height='18.0' rx='3' fill='#1a7f37' stroke='#1a7f37' stroke-width='1.5'/>
+<rect x='457.6' y='292.9' width='18.0' height='18.0' rx='3' fill='#1a7f37' stroke='#1a7f37' stroke-width='1.5'/>
+<path d='M386,301.9 C421.79999999999995,371.9 421.79999999999995,371.9 457.59999999999997,301.9' fill='none' stroke='#1a7f37' stroke-width='4' stroke-linecap='round'/>
+<text x='421.8' y='373.9' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='13' font-weight='700' fill='#1a7f37' text-anchor='middle'>TRS/TRRS</text>
+<text x='421.8' y='389.9' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='13' font-weight='700' fill='#1a7f37' text-anchor='middle'>cable</text>
+<circle cx='145.8' cy='334.1' r='6' fill='#cf222e' stroke='#cf222e' stroke-width='2.5'/>
+<circle cx='165.1' cy='334.1' r='6' fill='#cf222e' stroke='#cf222e' stroke-width='2.5'/>
+<polyline points='145.8,342.1 125.8,392.1' fill='none' stroke='#cf222e' stroke-width='2'/>
+<polyline points='165.1,342.1 185.1,392.1' fill='none' stroke='#cf222e' stroke-width='2'/>
+<text x='123.8' y='408.1' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='14' font-weight='700' fill='#cf222e' text-anchor='end'>RESET</text>
+<text x='187.1' y='408.1' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='14' font-weight='700' fill='#cf222e' text-anchor='start'>BOOT</text>
+<circle cx='679.4' cy='334.1' r='6' fill='#cf222e' stroke='#cf222e' stroke-width='2.5'/>
+<circle cx='698.7' cy='334.1' r='6' fill='#cf222e' stroke='#cf222e' stroke-width='2.5'/>
+<polyline points='679.4,342.1 659.4,392.1' fill='none' stroke='#cf222e' stroke-width='2'/>
+<polyline points='698.7,342.1 718.7,392.1' fill='none' stroke='#cf222e' stroke-width='2'/>
+<text x='657.4' y='408.1' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='14' font-weight='700' fill='#cf222e' text-anchor='end'>RESET</text>
+<text x='720.7' y='408.1' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='14' font-weight='700' fill='#cf222e' text-anchor='start'>BOOT</text>
+<polyline points='109.0,189.8 109.0,136.0' fill='none' stroke='#9a6700' stroke-width='2'/>
+<polyline points='734.6,189.8 734.6,136.0' fill='none' stroke='#9a6700' stroke-width='2'/>
+<text x='109.0' y='130.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='13' font-weight='700' fill='#9a6700' text-anchor='middle'>bootmagic</text>
+<text x='734.6' y='130.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='13' font-weight='700' fill='#9a6700' text-anchor='middle'>bootmagic</text>
+<text x='24.0' y='500.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='14' font-weight='400' fill='#24292f' text-anchor='start'>1. Unplug USB, then the TRS/TRRS cable.   2. Hold BOOT and plug in that half (or hold BOOT, press RESET).</text>
+<text x='24.0' y='520.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='14' font-weight='400' fill='#24292f' text-anchor='start'>3. Copy the .uf2 to the RPI-RP2 drive. Both halves use the same file.</text>
+<text x='24.0' y='540.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='14' font-weight='400' fill='#57606a' text-anchor='start'>Bootmagic: hold B (left) or J (right) while plugging in. Also enters the bootloader, but erases the Vial settings.</text>
+<circle cx='31' cy='567' r='6' fill='#cf222e'/>
+<text x='48.0' y='572.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='13' font-weight='400' fill='#57606a' text-anchor='start'>BOOT / RESET button</text>
+<rect x='203.0' y='558.0' width='16.0' height='16.0' rx='3' fill='#fff8c5' stroke='#9a6700' stroke-width='2.5'/>
+<text x='227.0' y='572.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='13' font-weight='400' fill='#57606a' text-anchor='start'>bootmagic key</text>
+<rect x='340.0' y='560.0' width='16.0' height='12.0' rx='2' fill='#0969da' stroke='#0969da' stroke-width='1.5'/>
+<text x='364.0' y='572.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='13' font-weight='400' fill='#57606a' text-anchor='start'>USB-C port</text>
+<rect x='456.0' y='560.0' width='16.0' height='12.0' rx='2' fill='#1a7f37' stroke='#1a7f37' stroke-width='1.5'/>
+<text x='480.0' y='572.0' font-family='-apple-system,Segoe UI,Helvetica,Arial,sans-serif' font-size='13' font-weight='400' fill='#57606a' text-anchor='start'>TRS/TRRS jack + cable</text>
+</svg>
