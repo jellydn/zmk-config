@@ -1,6 +1,7 @@
 name: Build ZMK firmware (nix)
 on:
   workflow_dispatch:
+  workflow_call: # used by release.yml
   push:
     paths:
       - config/**

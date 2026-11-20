@@ -8,6 +8,10 @@ Miryoku-style thumb layers.
 
 ![Keymap](draw/silakka54.svg)
 
+**[Download firmware](https://github.com/jellydn/zmk-vial-config/releases/tag/latest)**: every push to
+`main` builds all firmware (Silakka54 ZMK left/right, Silakka54 Vial, Corne v4.1 Vial) and puts the
+`.uf2` files, both `.vil` files and the keymap images in the `latest` release.
+
 ## Keyboards
 
 | Keyboard  | Status    | Build target                             | Notes                                       |
@@ -109,6 +113,10 @@ For a local build environment, see urob's
 `just build silakka54`).
 
 ## How to flash
+
+The [latest release](https://github.com/jellydn/zmk-vial-config/releases/tag/latest) has every file
+built from `main`. Use it instead of the Actions artifacts in step 1 below, unless you want a build
+from another branch.
 
 ### Silakka54 (ZMK)
 
