@@ -13,7 +13,7 @@ Miryoku-style thumb layers.
 | Keyboard  | Status    | Build target                             | Notes                                       |
 | --------- | --------- | ---------------------------------------- | ------------------------------------------- |
 | Silakka54 | supported | `rpi_pico//zmk` + `silakka54_left/right` | Onboard RP2040, full-duplex wired split     |
-| Corne v4.1 | planned  | —                                        | Needs single-wire (half-duplex) wired split, not yet in ZMK for RP2040 |
+| Corne v4.1 | QMK/Vial | `crkbd/rev4_1/standard` (see `qmk/`)    | ZMK lacks single-wire (half-duplex) split on RP2040, so it runs Vial |
 
 ## Keymap
 
@@ -56,6 +56,18 @@ Miryoku-style thumb layers.
 gets a small `config/<board>.keymap` that defines `ZMK_BASE_LAYER` to drop the number row or add
 extra keys, then includes `base.keymap`. Combos and HRM trigger keys use the
 [zmk-helpers](https://github.com/urob/zmk-helpers) key labels, so they move with the layout.
+
+## Corne v4.1 (QMK/Vial)
+
+`qmk/` holds the Corne v4.1 build. It keeps the same layout as the Silakka54, minus the number row:
+
+- `qmk/keymaps/jellydn/`: QMK keymap with Vial enabled, built on foostan's Corne v4.1 Vial build.
+  The `Build Corne v4.1 Vial firmware` workflow builds the `.uf2`.
+- `qmk/corne-v4.1-graphite.vil`: the full Vial setup (layers, combos, key overrides, macro, QMK
+  settings). Flash the `.uf2`, then load this file in Vial (File → Load saved layout).
+
+The extra keys hold ←/→ (EX1) and `=` / Next Track (EX2). `keymap.c` matches the `.vil` layers; the
+combos, key overrides and macro M0 exist only in the `.vil`, because Vial keeps them in EEPROM.
 
 ## Build
 
