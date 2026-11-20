@@ -1,9 +1,11 @@
-# This file generates the GitHub Actions matrix. Each entry builds one
-# firmware file (.uf2). Board revisions use ZMK's `name@rev//zmk` syntax.
+# DEBUG BRANCH ONLY (do not merge): Silakka54 builds with USB logging.
 ---
 include:
-  # Silakka54: onboard RP2040, wired split (full-duplex UART over TRRS)
   - board: rpi_pico//zmk
     shield: silakka54_left
+    snippet: zmk-usb-logging
+    artifact-name: silakka54_left-usb-logging
   - board: rpi_pico//zmk
     shield: silakka54_right
+    snippet: zmk-usb-logging
+    artifact-name: silakka54_right-usb-logging
