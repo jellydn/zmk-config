@@ -97,6 +97,12 @@ static const vial_key_override_entry_t default_key_overrides[] = {
     SHIFT_OVERRIDE(KC_MINS, LSFT(KC_QUOT)),
 };
 
+// Combos fire only on the base layer, like the Silakka54 ZMK combos. Without
+// this, "." and "-" on the Num layer would trigger the sticky Meh combo.
+bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
+    return get_highest_layer(layer_state) == _BASE;
+}
+
 static bool vial_eeprom_was_reset;
 
 void via_init_kb(void) {
