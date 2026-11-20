@@ -19,7 +19,7 @@ Miryoku-style thumb layers.
 
 - **Base**: Graphite with home-row mods `Gui Alt Ctrl Shift` on `N R T S` and `H A E I`
   (urob's "timeless" HRMs: a hold resolves only with a key on the other hand or a thumb).
-- **Thumbs** (left to right): `=`, `Space`/Nav, `Tab`/Mouse, `Enter`/Sym, `Bksp`/Num, Next track.
+- **Thumbs** (left to right): `=`, `Space`/Nav, `Tab`/Mouse, `Enter`/Sym, `Bksp`/Num, `;`.
 - **Layers**: Nav (arrows, Home/End, PgUp/PgDn), Mouse (mouse keys, Cmd shortcuts, one-shot Fn),
   Sym (shifted Num), Num (numpad), Fn (F-keys, media). `Lock` keeps the current layer on until you
   press it again.
@@ -28,9 +28,16 @@ Miryoku-style thumb layers.
   | Keys    | Output       | Keys  | Output       |
   | ------- | ------------ | ----- | ------------ |
   | B L     | Esc          | F O   | Esc          |
-  | L D     | sticky Gui   | O U   | `'`          |
-  | B L D   | Cmd+Q        | . -   | sticky Meh   |
-  | Q X     | Cmd+X        | X M   | Cmd+C        |
+  | L D     | sticky Gui   | F U   | Esc          |
+  | B L D   | Cmd+Q        | O U   | `'`          |
+  | L W     | Enter        | . -   | sticky Meh   |
+  | D W     | sticky Hyper | Q X   | Cmd+X        |
+  | X M     | Cmd+C        |       |              |
+
+- **Graphite shifted pairs** (base layer): Shift+`'` = `_`, Shift+`,` = `?`, Shift+`-` = `"`,
+  Shift+`/` = `<`.
+- **Mouse keys** match the Vial mouse key settings (linear ramp to 4000 px/s in 600 ms; wheel to
+  100 steps/s in 3.2 s).
 
 ## Layout of the repo
 

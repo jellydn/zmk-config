@@ -8,20 +8,23 @@
   ╰───────────╮ LH2 LH1 LH0 │ │ RH0 RH1 RH2 ╭───────────╯
               ╰─────────────╯ ╰─────────────╯
 
-  Base layer (Graphite):  LT4 LT3 LT2 = B L D    RT1 RT2 RT3 = F O U
+  Base layer (Graphite):  LT4 LT3 LT2 LT1 = B L D W    RT1 RT2 RT3 = F O U
                           LB4 LB3 LB2 = Q X M    RB2 RB3     = . -    */
 
-#define COMBO_TERM_FAST 18
+#define COMBO_TERM_FAST 35 // Vial combo term
 #define COMBO_IDLE_FAST 150
 
 /* Left hand */
 ZMK_COMBO(esc_l, &kp ESC,         LT4 LT3,     DEF, COMBO_TERM_FAST, COMBO_IDLE_FAST)
 ZMK_COMBO(gui,   &sk LGUI,        LT3 LT2,     DEF, COMBO_TERM_FAST, COMBO_IDLE_FAST)
 ZMK_COMBO(quit,  &kp LG(Q),       LT4 LT3 LT2, DEF, COMBO_TERM_FAST, COMBO_IDLE_FAST)
+ZMK_COMBO(enter, &kp RET,         LT3 LT1,     DEF, COMBO_TERM_FAST, COMBO_IDLE_FAST)
+ZMK_COMBO(hyper, &sk LS(LC(LA(LGUI))), LT2 LT1, DEF, COMBO_TERM_FAST, COMBO_IDLE_FAST)
 ZMK_COMBO(cut,   &kp LG(X),       LB4 LB3,     DEF, COMBO_TERM_FAST, COMBO_IDLE_FAST)
 ZMK_COMBO(copy,  &kp LG(C),       LB3 LB2,     DEF, COMBO_TERM_FAST, COMBO_IDLE_FAST)
 
 /* Right hand */
 ZMK_COMBO(esc_r, &kp ESC,         RT1 RT2,     DEF, COMBO_TERM_FAST, COMBO_IDLE_FAST)
-ZMK_COMBO(quote, &kp SQT,         RT2 RT3,     DEF, COMBO_TERM_FAST, COMBO_IDLE_FAST)
+ZMK_COMBO(esc_r2, &kp ESC,        RT1 RT3,     DEF, COMBO_TERM_FAST, COMBO_IDLE_FAST)
+ZMK_COMBO(quote, &gr_sqt,         RT2 RT3,     DEF, COMBO_TERM_FAST, COMBO_IDLE_FAST)
 ZMK_COMBO(meh,   &sk LS(LC(LALT)), RB2 RB3,   DEF, COMBO_TERM_FAST, COMBO_IDLE_FAST)

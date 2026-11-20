@@ -12,14 +12,14 @@ layers:
   - '8'
   - '9'
   - '0'
-  - $$mdi:play-pause$$
+  - $$mdi:skip-forward$$
   - {t: '[', s: '{'}
   - B
   - L
   - D
   - W
   - Z
-  - ''''
+  - {t: '''', s: _}
   - F
   - O
   - U
@@ -36,7 +36,7 @@ layers:
   - {t: A, h: Ctrl}
   - {t: E, h: Alt}
   - {t: I, h: Gui}
-  - ','
+  - {t: ',', s: '?'}
   - F13
   - Q
   - X
@@ -46,15 +46,15 @@ layers:
   - K
   - P
   - .
-  - '-'
-  - /
+  - {t: '-', s: '"'}
+  - {t: /, s: <}
   - Del
   - '='
   - {t: Spc, h: Nav}
   - {t: Tab, h: Mouse}
   - {t: Enter, h: Sym}
   - {t: Bspc, h: Num}
-  - $$mdi:skip-forward$$
+  - ;
   Nav:
   - ''
   - ''
@@ -288,6 +288,14 @@ combos:
 - p: [13, 14, 15]
   k: Quit
   l: [Base]
+- p: [14, 16]
+  k: Enter
+  l: [Base]
+  a: top
+  o: 0.2
+- p: [15, 16]
+  k: Hyper
+  l: [Base]
 - p: [37, 38]
   k: Cut
   l: [Base]
@@ -297,8 +305,13 @@ combos:
 - p: [19, 20]
   k: Esc
   l: [Base]
+- p: [19, 21]
+  k: Esc
+  l: [Base]
+  a: top
+  o: 0.2
 - p: [20, 21]
-  k: ''''
+  k: Quote
   l: [Base]
 - p: [44, 45]
   k: Meh

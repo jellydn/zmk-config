@@ -21,11 +21,16 @@
 
 /* Global defaults */
 
-#define QUICK_TAP_MS 175
+#define QUICK_TAP_MS 200 // Vial quick tap term
 
+// One-shot mods and layers stay active for 5 s, like Vial's one-shot timeout.
 &sk {
-  release-after-ms = <900>;
+  release-after-ms = <5000>;
   quick-release;
+};
+
+&sl {
+  release-after-ms = <5000>;
 };
 
 &lt {
@@ -54,6 +59,17 @@
 
 MAKE_HRM(hml, &kp, &kp, KEYS_R NUMROW_R THUMBS) // Left-hand HRMs.
 MAKE_HRM(hmr, &kp, &kp, KEYS_L NUMROW_L THUMBS) // Right-hand HRMs.
+
+/* Graphite shifted pairs (Vial key overrides, base layer only) */
+
+#define SHIFT_MORPH(NAME, BINDING, SHIFTED)                                    \
+  ZMK_MOD_MORPH(NAME, bindings = <BINDING>, <SHIFTED>;                         \
+                mods = <(MOD_LSFT|MOD_RSFT)>;)
+
+SHIFT_MORPH(gr_sqt,   &kp SQT,   &kp UNDER) // ' _
+SHIFT_MORPH(gr_comma, &kp COMMA, &kp QMARK) // , ?
+SHIFT_MORPH(gr_minus, &kp MINUS, &kp DQT)   // - "
+SHIFT_MORPH(gr_fslh,  &kp FSLH,  &kp LT)    // / <
 
 #include "combos.dtsi"
 
@@ -96,15 +112,15 @@ MAKE_HRM(hmr, &kp, &kp, KEYS_L NUMROW_L THUMBS) // Right-hand HRMs.
 
 ZMK_BASE_LAYER(Base,
 //╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮ ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-    &kp GRAVE     &kp N1        &kp N2        &kp N3        &kp N4        &kp N5      ,   &kp N6        &kp N7        &kp N8        &kp N9        &kp N0        &kp C_PP    ,
+    &kp GRAVE     &kp N1        &kp N2        &kp N3        &kp N4        &kp N5      ,   &kp N6        &kp N7        &kp N8        &kp N9        &kp N0        &kp C_FF    ,
 //├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-    &kp LBKT      &kp B         &kp L         &kp D         &kp W         &kp Z       ,   &kp SQT       &kp F         &kp O         &kp U         &kp J         &kp RBKT    ,
+    &kp LBKT      &kp B         &kp L         &kp D         &kp W         &kp Z       ,   &gr_sqt       &kp F         &kp O         &kp U         &kp J         &kp RBKT    ,
 //├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-    &kp ESC       &hml LGUI N   &hml LALT R   &hml LCTRL T  &hml LSHFT S  &kp G       ,   &kp Y         &hmr RSHFT H  &hmr RCTRL A  &hmr RALT E   &hmr RGUI I   &kp COMMA   ,
+    &kp ESC       &hml LGUI N   &hml LALT R   &hml LCTRL T  &hml LSHFT S  &kp G       ,   &kp Y         &hmr RSHFT H  &hmr RCTRL A  &hmr RALT E   &hmr RGUI I   &gr_comma   ,
 //├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-    &kp F13       &kp Q         &kp X         &kp M         &kp C         &kp V       ,   &kp K         &kp P         &kp DOT       &kp MINUS     &kp FSLH      &kp DEL     ,
+    &kp F13       &kp Q         &kp X         &kp M         &kp C         &kp V       ,   &kp K         &kp P         &kp DOT       &gr_minus     &gr_fslh      &kp DEL     ,
 //╰─────────────┴─────────────┴─────────────┼─────────────┼─────────────┼─────────────┤ ├─────────────┼─────────────┼─────────────┼─────────────┴─────────────┴─────────────╯
-                                              &kp EQUAL     &lt NAV SPACE &lt MOUSE TAB,   &lt SYM RET   &lt NUM BSPC  &kp C_NEXT
+                                              &kp EQUAL     &lt NAV SPACE &lt MOUSE TAB,   &lt SYM RET   &lt NUM BSPC  &kp SEMI
 //                                          ╰─────────────┴─────────────┴─────────────╯ ╰─────────────┴─────────────┴─────────────╯
 )
 

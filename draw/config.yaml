@@ -16,6 +16,11 @@ parse_config:
     "&kp LG(A)": All
     "&sk LGUI": Gui
     "&sk LS(LC(LALT))": Meh
+    "&sk LS(LC(LA(LGUI)))": Hyper
+    "&gr_sqt": { "t": "'", "s": "_" }
+    "&gr_comma": { "t": ",", "s": "?" }
+    "&gr_minus": { "t": "-", "s": "\"" }
+    "&gr_fslh": { "t": "/", "s": "<" }
     "&sl 5": { "t": "Fn", "h": "one-shot" }
     "&tog 1": Lock
     "&tog 2": Lock
@@ -38,6 +43,11 @@ parse_config:
     "&kp RBKT": { "t": "]", "s": "}" }
 
   trans_legend: { "t": "", "type": "trans" }
+
+  zmk_combos:
+    combo_enter: { align: top, o: 0.2 }
+    combo_esc_r2: { align: top, o: 0.2 }
+    combo_quote: { k: "Quote" }
 
   zmk_keycode_map:
     # custom mappings
@@ -76,6 +86,7 @@ parse_config:
     C_VOL_DN: $$mdi:volume-medium$$
     C_NEXT: $$mdi:skip-forward$$
     C_PREV: $$mdi:skip-backward$$
+    C_FF: $$mdi:skip-forward$$
 
     # defaults
     AMPERSAND: "&"
