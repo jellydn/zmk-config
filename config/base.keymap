@@ -1,6 +1,12 @@
 #include <behaviors.dtsi>
 #include <zmk-helpers/helper.h> // Requires zmk-helpers module.
 #include <dt-bindings/zmk/keys.h>
+
+// Mouse keys tuned to match QMK/Vial mouse keys with the Vial settings
+// (step 8, max speed 10, interval 20 ms, time to max 30; wheel max 8,
+// interval 80 ms, time to max 40). ZMK speeds are units per second.
+#define ZMK_POINTING_DEFAULT_MOVE_VAL 4000 // 8 px x 10 per 20 ms
+#define ZMK_POINTING_DEFAULT_SCRL_VAL 100  // 8 steps per 80 ms
 #include <dt-bindings/zmk/pointing.h>
 
 #define DEF 0
@@ -55,6 +61,18 @@ MAKE_HRM(hmr, &kp, &kp, KEYS_L NUMROW_L THUMBS) // Right-hand HRMs.
 
 // Screenshot of an area to the clipboard (macOS Ctrl+Shift+Cmd+4).
 #define SCRSHOT &kp LC(LS(LG(N4)))
+
+// QMK ramps speed linearly to the max: 30 x 20 ms for the pointer,
+// 40 x 80 ms for the wheel.
+&mmv {
+  time-to-max-speed-ms = <600>;
+  acceleration-exponent = <1>;
+};
+
+&msc {
+  time-to-max-speed-ms = <3200>;
+  acceleration-exponent = <1>;
+};
 
 #define MS_U &mmv MOVE_UP
 #define MS_D &mmv MOVE_DOWN
