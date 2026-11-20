@@ -117,8 +117,24 @@ char chordal_hold_handedness(keypos_t key) {
     return (char)pgm_read_byte(&chordal_hold_layout[key.row][key.col]);
 }
 
-// The .vil holds no LED settings, so select Typing Heatmap when Vial resets its
-// EEPROM (first boot of each new build). Changes made in Vial stay until then.
+// Vial erases its combos on the first boot of every new build. Write the combos
+// of corne-v4.1-graphite.vil back then, so they work without loading the .vil.
+// Keep this list in the same order as the .vil.
+static const vial_combo_entry_t default_combos[] PROGMEM = {
+    {{KC_B, KC_L, KC_NO, KC_NO}, KC_ESC},
+    {{KC_L, KC_D, KC_NO, KC_NO}, OSM(MOD_LGUI)},
+    {{KC_B, KC_L, KC_D, KC_NO}, LGUI(KC_Q)},
+    {{KC_L, KC_W, KC_NO, KC_NO}, KC_ENT},
+    {{KC_D, KC_W, KC_NO, KC_NO}, OSM(MOD_HYPR)},
+    {{KC_Q, KC_X, KC_NO, KC_NO}, LGUI(KC_X)},
+    {{KC_X, KC_M, KC_NO, KC_NO}, LGUI(KC_C)},
+    {{KC_F, KC_O, KC_NO, KC_NO}, OSM(MOD_MEH)},
+    {{KC_F, KC_U, KC_NO, KC_NO}, KC_ESC},
+    {{KC_O, KC_U, KC_NO, KC_NO}, KC_QUOT},
+    {{KC_DOT, KC_MINS, KC_NO, KC_NO}, OSM(MOD_MEH)},
+};
+
+// Detect the first boot of a new build, before Vial resets its EEPROM.
 static bool vial_eeprom_was_reset;
 
 void via_init_kb(void) {
@@ -127,6 +143,15 @@ void via_init_kb(void) {
 
 void keyboard_post_init_user(void) {
     if (vial_eeprom_was_reset) {
+        for (uint8_t i = 0; i < ARRAY_SIZE(default_combos); ++i) {
+            vial_combo_entry_t combo;
+            memcpy_P(&combo, &default_combos[i], sizeof(combo));
+            dynamic_keymap_set_combo(i, &combo);
+        }
+        vial_init(); // reload the combos from EEPROM; Vial read them before the reset
+
+        // The .vil holds no LED settings: start on Typing Heatmap. Changes made
+        // in Vial stay until the next new build.
         rgb_matrix_enable(); // the setters below do nothing while RGB is off
         rgb_matrix_mode(RGB_MATRIX_TYPING_HEATMAP);
         rgb_matrix_sethsv(RGB_MATRIX_DEFAULT_HUE, RGB_MATRIX_DEFAULT_SAT, RGB_MATRIX_DEFAULT_VAL);
