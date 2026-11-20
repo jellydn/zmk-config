@@ -78,8 +78,9 @@ hand, or a mod on its own.
   a tap, so you can hold `Space` for Nav right after a letter. In the Vial builds, Flow Tap would
   also catch `Space`/Nav, so each `keymap.c` limits it with `is_flow_tap_key`. A tapped `Space` still
   counts as typing before a home-row mod.
-- "Typing key" differs a little. With ZMK it is any key press. With Vial it is a letter,
-  `.` `,` `;` `/` or a tapped `Space`, with no Cmd, Ctrl or left Alt held (QMK's default rule).
+- "Typing key" differs a little. With ZMK it is any non-modifier key press (mods and layer keys do
+  not count). With Vial it is a letter, `.` `,` `;`
+  `/`, a plain `Space` or a tapped `Space`/Nav, with no Cmd, Ctrl or left Alt held (QMK's default rule).
 - The ZMK combos use the same 150 ms idle rule, so fast rolls such as `bl` type letters, not
   Esc. Vial combos have no idle rule.
 - Vial resets Permissive Hold, Chordal Hold and Flow Tap to off on every new build. Load the `.vil`
