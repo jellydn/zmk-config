@@ -97,142 +97,27 @@ hand, or a mod on its own.
 
 ## FAQ: tap-hold settings
 
-These answers are for the Corne (Vial). Vial's QMK Settings holds the values. Load the `.vil` to set
-them, and check them in Vial under **QMK Settings → Tap-Hold**. The Silakka54 ZMK build is covered
-at the end.
+Corne values come from Vial's QMK Settings (load the `.vil`; check them under **QMK Settings →
+Tap-Hold**).
 
-### What is the tapping term (200 ms)?
+| Setting | What it does | Why / trade-off | Example |
+| --- | --- | --- | --- |
+| Tapping term 200 ms | A key held longer than this on its own is a hold. | Fallback only; the rules below decide most presses sooner. Shorter means faster mods but more stray mods. | Rest on `S` 250 ms → Shift. |
+| Permissive Hold | Another key pressed *and released* inside a held key makes it a hold at once. | Fast shortcuts (ZMK `balanced`). A sloppy roll can give a mod; Flow Tap and Chordal Hold catch most. | `T`↓ `C`↓ `C`↑ → Ctrl+C. |
+| Flow Tap 150 ms | A home-row mod pressed within 150 ms of a typing key is a letter at once. | No typing delay (ZMK `require-prior-idle-ms`). Pause briefly before a mod right after a letter. Thumb layer-taps are excluded. | Fast `the` → letters, no mods. |
+| Chordal Hold | A hold needs the next key on the *other* hand. | Same-hand rolls stay letters. A same-hand mod needs the full 200 ms. Thumb layer-taps count as neither hand, so Nav keys on the thumb's own hand work. | `S` `T` (same hand) → `st`. |
+| Combo term 50 ms | Combo keys must go down within 50 ms. | Chords fire, rolls type. Vial has no idle rule, so a very fast `bl` can still give Esc. | `B`+`L` together → Esc. |
+| Base-layer combos | Combos fire only on the base layer (`combo_should_trigger`). | Stops `.` `-` on Num from firing sticky Meh. | — |
 
-**What it does:** the longest time a tap-hold key can stay down and still count as a tap. Hold `S`
-for less than 200 ms with no other key pressed and you get `s`. Hold it longer and you get Shift.
+**Why does my thumb layer wait ~200 ms?** Hold a thumb key and *hold* the next key (for example
+`Space` + an arrow): the layer turns on only at the 200 ms term. A tapped next key is instant. Vial's
+QMK Settings owns "hold on other key press" for all keys, so `keymap.c` cannot turn it on for the
+thumbs only (PR #9). Turning it on globally in Vial would also give stray home-row mods.
 
-**Why 200 ms:** the other settings below decide most presses before the term runs out, so the term
-is only the fallback for a key held on its own.
-
-**Benefit:** a lone hold (Shift with the mouse, a held layer) turns on after 200 ms.
-**Trade-off:** a shorter term gives you mods sooner, but a slow letter becomes a stray mod. A longer
-term makes a lone hold slower.
-
-**Example:** you rest on `S` for 250 ms while you think, then let go. You get Shift, not `s`.
-
-### What does Permissive Hold do?
-
-**What it does:** a tap-hold key becomes a hold as soon as another key is pressed *and released*
-inside it, before the tapping term.
-
-**Why:** it gives Shift+key fast, without waiting 200 ms. It is QMK's version of ZMK's `balanced`
-flavor.
-
-**Benefit:** shortcuts are fast: hold `T` (Ctrl), tap `C`, and Ctrl+C goes out at once.
-**Trade-off:** a roll where you let go of the second key before the first gives a mod. Flow Tap and
-Chordal Hold below remove most of these cases.
-
-**Example:** `S`↓ `H`↓ `H`↑ `S`↑ gives `H` (Shift+h). `S`↓ `H`↓ `S`↑ `H`↑ gives `sh`.
-
-### What does Flow Tap (150 ms) do?
-
-**What it does:** a home-row mod pressed less than 150 ms after a typing key is a letter at once.
-QMK does not wait to see if it is a hold.
-
-**Why:** while you type fast, you never want a mod. It is QMK's version of ZMK's
-`require-prior-idle-ms`.
-
-**Benefit:** no typing delay, and almost no stray mods in fast words.
-**Trade-off:** for a mod right after a letter, pause about 150 ms first. "Typing key" means a letter,
-`.` `,` `;` `/` or a tapped `Space`, with no Cmd, Ctrl or left Alt held, so Cmd+Shift+… combos
-still work fast.
-
-**Only the home-row mods:** `is_flow_tap_key` in `keymap.c` never forces a thumb layer-tap to a
-tap, so you can type a word and hold `Space` for Nav at once.
-
-**Example:** you type `the` fast. `t` and `e` come out at once even though both are mods, because
-each one follows a letter within 150 ms.
-
-### What does Chordal Hold do?
-
-**What it does:** a tap-hold key and the next key make a hold only when they are on opposite hands.
-Two keys on the same hand stay letters.
-
-**Why:** most fast rolls are on one hand (`rt` in "start", `st` in "first"). Those are never meant as
-a mod.
-
-**Benefit:** same-hand rolls stay letters even with Permissive Hold.
-**Trade-off:** a mod with a key on the same hand needs the tapping term: hold the mod for 200 ms,
-then press the key. Several mods on one hand still stack: hold `T` and `S`, then press a key on the
-other hand, and you get Ctrl+Shift.
-
-**Example:** `S`↓ `T`↓ `T`↑ `S`↑ (same hand) gives `st`. `S`↓ `A`↓ `A`↑ `S`↑ (other hand) gives `A`.
-
-### Why do the thumb layer-taps count as neither hand?
-
-Chordal Hold looks at each key's hand. Before PR #9 it put the thumbs on the left or the right like
-every other key. Then holding `Space` (left thumb) for Nav and pressing a Nav key on the **left**
-hand (Esc, or the Gui/Alt/Ctrl/Shift there) counted as a same-hand roll: you got a space and the
-letter, not the Nav key.
-
-`chordal_hold_handedness` in `keymap.c` now marks the thumb layer-taps `*` (neither hand), so every
-key makes a chord with them. A home-row mod plus a thumb key is then always a chord too, the same as
-on the Silakka54.
-
-**Example:** you hold `Space`, tap `N` (left Gui on Nav), and let go. You get Gui, not a space.
-
-### Why does my thumb layer wait ~200 ms?
-
-When you hold a thumb key and *hold* the next key (for example `Space` + an arrow, to make the
-cursor repeat), the layer turns on only after the 200 ms tapping term. If you tap the next key, the
-layer turns on as soon as you release it (Permissive Hold).
-
-The fix would be "hold on other key press" for the thumb keys only: the layer turns on as soon as
-the next key goes down. Vial's QMK Settings owns that setting for all keys, and a keymap cannot
-change it per key while QMK Settings is on. An earlier version of PR #9 turned QMK Settings off to
-get it. That was dropped, because you could then not see or check the settings in Vial.
-
-**What you can do:**
-- Tap Nav keys instead of holding them; that is instant.
-- For a held arrow, accept the 200 ms wait, or lower the tapping term in Vial. That also changes
-  the home-row mods.
-- Do not turn on **Hold On Other Key Press** in Vial: it applies to the home-row mods too, so a
-  roll across the hands would give stray mods.
-
-### What does the combo term (50 ms) do?
-
-**What it does:** the keys of a combo must go down within 50 ms of each other. `B` and `L` within
-50 ms gives Esc; further apart, they type `bl`.
-
-**Why 50 ms:** a combo is pressed as one chord, almost at the same time. A normal roll is slower.
-
-**Benefit:** fast words with combo letters still type.
-**Trade-off:** a sloppy chord types the letters. Vial combos have no idle rule like ZMK, so a very
-fast roll such as `bl` in "ble" can still fire Esc.
-
-### Why do combos work only on the base layer?
-
-`combo_should_trigger` in `keymap.c` turns combos off on every other layer. Combos are set by key
-code, so without this `.` and `-` on the Num layer would fire the sticky-Meh combo while you type
-numbers. The ZMK combos are base-layer only too.
-
-### How does the Silakka54 (ZMK) do it?
-
-The ZMK build uses urob's timeless home-row mods (`config/base.keymap`). The ideas are the same,
-with ZMK's names:
-
-| Idea | Silakka54 (ZMK) | Corne (Vial) |
-| --- | --- | --- |
-| Fallback time | `tapping-term-ms = <280>` | Tapping term 200 ms |
-| Mod on another tap | `flavor = "balanced"` | Permissive Hold |
-| Letter while typing | `require-prior-idle-ms = <150>` | Flow Tap 150 ms |
-| Other hand only | `hold-trigger-key-positions`: the other hand and all thumbs | Chordal Hold, thumbs as neither hand |
-| Same-hand mods stack | `hold-trigger-on-release` | Chordal Hold (built in) |
-| Combos | 50 ms, plus a 150 ms idle rule | 50 ms, no idle rule |
-
-Differences:
-- ZMK has a longer term (280 ms), because `require-prior-idle-ms` and the positional trigger decide
-  almost every press before it.
-- In ZMK any non-modifier key press counts as typing for the idle rule. In Vial only letters and a
-  few symbols count.
-- The ZMK thumb layer-taps are `balanced` with a 200 ms term, so they also wait for the other key's
-  release or 200 ms, like the Corne.
-- The ZMK combos have the 150 ms idle rule, so fast rolls do not fire them.
+**Silakka54 (ZMK):** urob's timeless setup does the same with ZMK names: `balanced` (Permissive
+Hold), `require-prior-idle-ms = <150>` (Flow Tap), `hold-trigger-key-positions` on the other hand and
+all thumbs plus `hold-trigger-on-release` (Chordal Hold). Its term is 280 ms, any non-modifier key
+counts as typing, and its combos also have a 150 ms idle rule.
 
 ## Layout of the repo
 
