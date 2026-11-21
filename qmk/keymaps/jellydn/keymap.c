@@ -1,6 +1,6 @@
 // Corne v4.1 (crkbd/rev4_1/standard): Graphite Miryoku layout, synced with the
 // Silakka54 keymap. Generated from corne-v4.1-graphite.vil; keep both in sync.
-// Combos, key overrides and macro M0 live in Vial (load the .vil).
+// keymap.c writes the .vil combos, key overrides and macro M0 on first boot.
 #include QMK_KEYBOARD_H
 
 enum layers { _BASE, _NAV, _MOUSE, _SYM, _NUM, _FN };
@@ -22,7 +22,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_MOUSE] = LAYOUT_split_3x6_3_ex2(
               XXXXXXX,       XXXXXXX,    LGUI(KC_W),    LGUI(KC_C),    LGUI(KC_V),    LGUI(KC_X),       KC_VOLD,          KC_VOLU,        KC_TAB,       XXXXXXX,         MS_UP,       XXXXXXX,       XXXXXXX,       XXXXXXX,
-               KC_ESC,       KC_LGUI,       KC_LALT,       KC_LCTL,       KC_LSFT, C(S(G(KC_4))),       KC_MUTE,          KC_MNXT,        KC_ENT,       MS_LEFT,       MS_DOWN,       MS_RGHT,       XXXXXXX,       XXXXXXX,
+               KC_ESC,       KC_LGUI,       KC_LALT,       KC_LCTL,       KC_LSFT,    QK_MACRO_0,       KC_MUTE,          KC_MNXT,        KC_ENT,       MS_LEFT,       MS_DOWN,       MS_RGHT,       XXXXXXX,       XXXXXXX,
               XXXXXXX,       XXXXXXX,    LGUI(KC_Q),    LGUI(KC_S),    LGUI(KC_A),      OSL(_FN),                                          KC_ESC,       MS_WHLL,       MS_WHLD,       MS_WHLU,       MS_WHLR,       XXXXXXX,
                                                            XXXXXXX,       XXXXXXX,       XXXXXXX,          MS_BTN1,       MS_BTN2,       QK_LLCK
     ),
@@ -117,7 +117,8 @@ char chordal_hold_handedness(keypos_t key) {
     return (char)pgm_read_byte(&chordal_hold_layout[key.row][key.col]);
 }
 
-// Vial erases its combos and key overrides on the first boot of every new build.
+// Vial erases its combos, key overrides and macros on the first boot of every
+// new build.
 // Write the ones from corne-v4.1-graphite.vil back then, so they work without
 // loading the .vil.
 // Keep this list in the same order as the .vil.
@@ -149,6 +150,20 @@ static const vial_key_override_entry_t default_key_overrides[] PROGMEM = {
     GRAPHITE_SHIFT(KC_MINS, LSFT(KC_QUOT)), // Shift+- gives "
 };
 
+// Macro M0 from the .vil, in Vial's macro buffer format: hold Shift, Gui and
+// Ctrl, tap 4, release them (macOS area screenshot to the clipboard). Each
+// step is SS_QMK_PREFIX, the action, then the keycode; the macro ends with 0.
+static const uint8_t default_macros[] PROGMEM = {
+    SS_QMK_PREFIX, SS_DOWN_CODE, KC_LSFT,
+    SS_QMK_PREFIX, SS_DOWN_CODE, KC_LGUI,
+    SS_QMK_PREFIX, SS_DOWN_CODE, KC_LCTL,
+    SS_QMK_PREFIX, SS_TAP_CODE,  KC_4,
+    SS_QMK_PREFIX, SS_UP_CODE,   KC_LSFT,
+    SS_QMK_PREFIX, SS_UP_CODE,   KC_LGUI,
+    SS_QMK_PREFIX, SS_UP_CODE,   KC_LCTL,
+    0,
+};
+
 // Detect the first boot of a new build, before Vial resets its EEPROM.
 static bool vial_eeprom_was_reset;
 
@@ -169,6 +184,10 @@ void keyboard_post_init_user(void) {
             dynamic_keymap_set_key_override(i, &ko);
         }
         vial_init(); // reload from EEPROM; Vial read the empty entries before the reset
+
+        uint8_t macros[sizeof(default_macros)];
+        memcpy_P(macros, default_macros, sizeof(macros));
+        dynamic_keymap_macro_set_buffer(0, sizeof(macros), macros); // read at each press
 
         // The .vil holds no LED settings: start on Typing Heatmap. Changes made
         // in Vial stay until the next new build.

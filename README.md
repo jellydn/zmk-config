@@ -150,9 +150,9 @@ combos, key overrides, macro M0 and QMK Settings: Vial keeps them in EEPROM, not
 erases them on the first boot of every new build. **Load the `.vil` after every flash.** The firmware
 itself only adds what Vial cannot store: combos fire on the base layer only, Flow Tap covers the
 home-row mods only, Chordal Hold counts the thumb layer-taps as neither hand, and the LEDs start on
-Typing Heatmap. On that first boot it also writes the `.vil` combos and Graphite shift overrides
-back, so they work before you load the `.vil` (`default_combos` and `default_key_overrides` in
-`keymap.c`; keep them in sync with the `.vil`).
+Typing Heatmap. On that first boot it also writes the `.vil` combos, Graphite shift overrides and
+macro M0 back, so they work before you load the `.vil` (`default_combos`, `default_key_overrides`
+and `default_macros` in `keymap.c`; keep them in sync with the `.vil`).
 
 > [!WARNING]
 > **The QMK keymap (`keymap.c`) is UNTESTED on hardware.** Its layers match the `.vil` key for key,
@@ -297,8 +297,8 @@ covers them, press them with a non-metal stick between the keys.
    the main half.)
 8. **Required after every flash:** open [Vial](https://get.vial.today/), choose **File → Load saved
    layout** and pick `corne-v4.1-graphite.vil`. Each new build starts with an empty Vial EEPROM:
-   without this step the Corne has no macro M0, and permissive hold, chordal hold and Flow Tap are
-   off. (The combos and the Graphite shift overrides are in the firmware and need no `.vil`.)
+   without this step permissive hold, chordal hold and Flow Tap are off. (The combos, the Graphite
+   shift overrides and macro M0 are in the firmware and need no `.vil`.)
 
 Other way into the bootloader: hold the top-row key second from the outer edge (`B` on the left,
 `J` on the right) while you plug in that half. This also erases the Vial settings, so load the
