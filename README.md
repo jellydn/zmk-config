@@ -186,9 +186,8 @@ bootloader key; enter the bootloader with the buttons or bootmagic.
 Every push or pull request that touches `config/**` or `build.yaml` builds the firmware in GitHub
 Actions (`Build ZMK firmware (nix)`).
 
-For a local build environment, see urob's
-[workspace notes](https://github.com/urob/zmk-config#part-i-the-workspace) (`just init`, then
-`just build silakka54`).
+For a local build environment, see [docs/build-env.md](docs/build-env.md) (`just init`, then
+`just build silakka54`). The Vial firmware builds only in GitHub Actions.
 
 ## How to flash
 

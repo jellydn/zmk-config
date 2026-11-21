@@ -4,8 +4,7 @@ The local build environment uses `nix`, `direnv` and `just` to set up a virtual 
 environment with `west`, the `zephyr-sdk` and all their dependencies whenever you `cd` into the
 workspace. The environment is _completely isolated_ and won't pollute your system.
 
-Using it is entirely optional — see [Building the
-firmware](../README.md#building-the-firmware) for the cloud-based alternative, which requires no
+Using it is entirely optional — see [Build](../README.md#build) for the cloud-based alternative, which requires no
 local setup at all.
 
 ## Prerequisites
@@ -70,8 +69,8 @@ local setup at all.
    `zmk-workspace` as it will be the toplevel of the development environment.
 
    ```bash
-   # Replace `urob` with your username
-   git clone https://github.com/urob/zmk-config zmk-workspace
+   # Replace `jellydn` with your username
+   git clone https://github.com/jellydn/zmk-vial-config zmk-workspace
    ```
 
 2. Enter the workspace and set up the environment.
@@ -100,9 +99,8 @@ To build the firmware, simply type `just build all` from anywhere in the workspa
 firmware ends up in the `firmware` directory.
 
 To only build the firmware for a specific target, use `just build <target>`. This will build the
-firmware for all matching board and shield combinations. For instance, to build the firmware for my
-Corneish Zen, I can type `just build zen`, which builds both `corneish_zen_v2_left` and
-`corneish_zen_v2_right`. (`just list` shows all valid build targets.)
+firmware for all matching board and shield combinations. For instance, `just build silakka54`
+builds both `silakka54_left` and `silakka54_right`. (`just list` shows all valid build targets.)
 
 Additional arguments to `just build` are passed on to `west`. For instance, a pristine build can be
 triggered with `just build all -p`. (Alternatively, `just clean` clears the build cache.)
@@ -116,8 +114,8 @@ board's USB mass-storage device. For boards that don't support UF2 (like the Pla
 ### Drawing the keymap
 
 The build environment packages [keymap-drawer](https://github.com/caksoylar/keymap-drawer).
-`just draw` parses `base.keymap` and renders it to `draw/base.svg` (per-layer breakdown) and
-`draw/overview.svg` (the condensed overview shown in the README).
+`just draw` parses `config/silakka54.keymap` and renders it to `draw/silakka54.svg` (the image shown
+in the README).
 
 ### Devicetree formatter (experimental)
 
@@ -163,14 +161,14 @@ keymap in this repository — the keymap itself is validated by the cloud build.
 
 To sync ZMK and all modules to the revisions pinned in `config/west.yml`, run `just sync`. Make
 sure to commit and push all local changes you have made to ZMK and the modules before running this
-command, as it will overwrite them. To pull in _new_ upstream revisions, see [Pinning the
-firmware](../README.md#pinning-the-firmware).
+command, as it will overwrite them. To pull in _new_ upstream revisions, run `just bump-west`
+(`pin-west bump`, then `just sync`).
 
 To upgrade the Zephyr SDK and Python build dependencies, use `just bump-nix`. (Use with care —
 Running this will upgrade all Nix packages and may end up breaking the build environment. When in
-doubt, I recommend keeping the environment pinned to `flake.lock`, which is [continuously
-tested](https://github.com/urob/zmk-config/actions/workflows/test-build-env.yml) on Linux and
-macOS.)
+doubt, I recommend keeping the environment pinned to `flake.lock`, which
+[`test-build-env.yml`](../.github/workflows/test-build-env.yml) tests on Linux and macOS whenever
+`flake.*` or `nix/` change.)
 
 [^1]:
     `nix-direnv` provides a vastly improved caching experience compared to only having `direnv`,

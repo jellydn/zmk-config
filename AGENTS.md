@@ -11,7 +11,7 @@ and the build pipeline, see the [README](README.md).
   `config/**` or `build.yaml`); the firmware is downloaded from the Actions tab. A fresh fork has
   Actions disabled — enable them once from the fork's Actions tab.
 - **Building locally** requires the nix-based dev environment (nix + direnv, see the
-  [README](README.md#local-build-environment)) plus a one-time `just init`, which turns the
+  [docs/build-env.md](docs/build-env.md)) plus a one-time `just init`, which turns the
   repository into a west workspace by pulling in ZMK, Zephyr and the modules. Then verify keymap
   changes with `just build <target>` (`just list` shows valid targets, `just build all` builds
   everything); compiled firmware lands in `firmware/`. If `just` or `west` are missing, the
