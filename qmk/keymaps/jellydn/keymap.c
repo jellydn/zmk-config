@@ -15,7 +15,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_NAV] = LAYOUT_split_3x6_3_ex2(
               XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       KC_VOLD,          KC_VOLU,        KC_TAB,       KC_BSPC,         KC_UP,        KC_DEL,       XXXXXXX,       XXXXXXX,
-               KC_ESC,       KC_LGUI,       KC_LALT,       KC_LCTL,       KC_LSFT,      OSL(_FN),       KC_MUTE,          KC_MNXT,        KC_ENT,       KC_LEFT,       KC_DOWN,      KC_RIGHT,       KC_CAPS,       XXXXXXX,
+               KC_ESC,       KC_LGUI,       KC_LALT,       KC_LCTL,       KC_LSFT,       XXXXXXX,       KC_MUTE,          KC_MNXT,        KC_ENT,       KC_LEFT,       KC_DOWN,      KC_RIGHT,       KC_CAPS,       XXXXXXX,
               XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,                                          KC_ESC,        KC_TAB,       KC_HOME,        KC_END,       XXXXXXX,       XXXXXXX,
                                                            XXXXXXX,       XXXXXXX,       XXXXXXX,          KC_PGUP,       KC_PGDN,       QK_LLCK
     ),
@@ -31,14 +31,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
               XXXXXXX, LSFT(KC_LBRC),    LSFT(KC_7),    LSFT(KC_8),    LSFT(KC_9), LSFT(KC_RBRC),       XXXXXXX,          XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,
               XXXXXXX, LSFT(KC_SCLN),    LSFT(KC_4),    LSFT(KC_5),    LSFT(KC_6),  LSFT(KC_EQL),       XXXXXXX,          XXXXXXX,        KC_ENT,       KC_RSFT,       KC_RCTL,       KC_RALT,       KC_RGUI,       XXXXXXX,
               XXXXXXX,  LSFT(KC_GRV),    LSFT(KC_1),    LSFT(KC_2),    LSFT(KC_3), LSFT(KC_BSLS),                                          KC_ESC, LSFT(KC_COMM),  LSFT(KC_DOT), LSFT(KC_SLSH),       XXXXXXX,       XXXXXXX,
-                                                        LSFT(KC_9),    LSFT(KC_0), LSFT(KC_MINS),           KC_ENT,       KC_BSPC,       QK_LLCK
+                                                        LSFT(KC_9),    LSFT(KC_0), LSFT(KC_MINS),          XXXXXXX,       XXXXXXX,       XXXXXXX
     ),
 
     [_NUM] = LAYOUT_split_3x6_3_ex2(
               XXXXXXX,       KC_LBRC,          KC_7,          KC_8,          KC_9,       KC_RBRC,       KC_VOLD,          KC_VOLU,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,       XXXXXXX,
               XXXXXXX,       KC_SCLN,          KC_4,          KC_5,          KC_6,        KC_EQL,       KC_MUTE,          KC_MNXT,        KC_ENT,       KC_RSFT,       KC_RCTL,       KC_RALT,       KC_RGUI,       XXXXXXX,
               XXXXXXX,        KC_GRV,          KC_1,          KC_2,          KC_3,       KC_BSLS,                                          KC_ESC,       KC_COMM,        KC_DOT,       KC_SLSH,       XXXXXXX,       XXXXXXX,
-                                                              KC_9,          KC_0,       KC_MINS,           KC_ENT,       KC_BSPC,       QK_LLCK
+                                                              KC_9,          KC_0,       KC_MINS,          XXXXXXX,       XXXXXXX,       XXXXXXX
     ),
 
     [_FN] = LAYOUT_split_3x6_3_ex2(
