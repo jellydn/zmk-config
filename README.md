@@ -284,7 +284,7 @@ covers them, press them with a non-metal stick between the keys.
 **Steps**
 
 1. In the Actions tab, filter `Build Corne v4.1 Vial firmware` by your branch (`main` once merged),
-   open the green run for the commit you want, and download the `corne-v4.1-vial` artifact. It holds `tmp_crkbd_rev4_1_standard_jellydn.uf2` and
+   open the green run for the commit you want, and download the `corne-v4.1-vial` artifact. It holds `corne-v4.1-vial.uf2` and
    `corne-v4.1-graphite.vil`. Both halves use the same `.uf2`; each half knows its side from the PCB.
 2. Unplug the USB cable, then unplug the TRS/TRRS cable between the halves.
 3. Left half: hold BOOT and plug the USB cable into the left half, then let go of BOOT. If it is
