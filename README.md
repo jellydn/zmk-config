@@ -82,6 +82,11 @@ hand, or a mod on its own.
   a tap, so you can hold `Space` for Nav right after a letter. In the Vial builds, Flow Tap would
   also catch `Space`/Nav, so each `keymap.c` limits it with `is_flow_tap_key`. A tapped `Space` still
   counts as typing before a home-row mod.
+- On the Corne, Chordal Hold counts the thumb layer-taps as neither hand (`chordal_hold_handedness`
+  in `keymap.c`). So holding `Space` for Nav works with Nav keys on the same hand (Esc, the left
+  mods), and a home-row mod plus any thumb key is a chord, as on the Silakka54. A thumb layer turns
+  on when the other key is released or after the 200 ms tapping term (Vial's QMK Settings owns the
+  per-key hold callbacks, so the thumbs cannot turn on at the press). (Untested on hardware.)
 - "Typing key" differs a little. With ZMK it is any non-modifier key press (mods and layer keys do
   not count). With Vial it is a letter, `.` `,` `;`
   `/`, a plain `Space` or a tapped `Space`/Nav, with no Cmd, Ctrl or left Alt held (QMK's default rule).
@@ -119,8 +124,9 @@ extra keys, then includes `base.keymap`. Combos and HRM trigger keys use the
 The extra keys hold ←/→ (EX1) and Play/Pause / Next Track (EX2). The `.vil` is the single source of truth for
 combos, key overrides, macro M0 and QMK Settings: Vial keeps them in EEPROM, not in `keymap.c`, and
 erases them on the first boot of every new build. **Load the `.vil` after every flash.** The firmware
-itself only adds three things Vial cannot store: combos fire on the base layer only, Flow Tap
-covers the home-row mods only, and the LEDs start on Typing Heatmap.
+itself only adds what Vial cannot store: combos fire on the base layer only, Flow Tap covers the
+home-row mods only, Chordal Hold counts the thumb layer-taps as neither hand, and the LEDs start on
+Typing Heatmap.
 
 > [!WARNING]
 > **The QMK keymap (`keymap.c`) is UNTESTED on hardware.** Its layers match the `.vil` key for key,

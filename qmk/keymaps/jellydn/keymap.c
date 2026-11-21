@@ -104,6 +104,19 @@ bool is_flow_tap_key(uint16_t keycode) {
     return false;
 }
 
+// Chordal Hold (on in the .vil) makes a tap-hold key a tap when the next key is
+// on the same hand. The thumb layer-taps count as neither hand, so they turn
+// their layer on also with keys on their own hand (Esc and the mods on Nav and
+// Mouse). A home-row mod plus a thumb key is then a chord too, as on the
+// Silakka54, whose home-row mods take all thumbs as hold-trigger keys.
+// Vial's QMK Settings owns get_chordal_hold, so the per-key rule goes here.
+char chordal_hold_handedness(keypos_t key) {
+    if (IS_QK_LAYER_TAP(keymap_key_to_keycode(_BASE, key))) {
+        return '*';
+    }
+    return (char)pgm_read_byte(&chordal_hold_layout[key.row][key.col]);
+}
+
 // The .vil holds no LED settings, so select Typing Heatmap when Vial resets its
 // EEPROM (first boot of each new build). Changes made in Vial stay until then.
 static bool vial_eeprom_was_reset;
