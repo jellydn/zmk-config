@@ -117,8 +117,9 @@ char chordal_hold_handedness(keypos_t key) {
     return (char)pgm_read_byte(&chordal_hold_layout[key.row][key.col]);
 }
 
-// Vial erases its combos on the first boot of every new build. Write the combos
-// of corne-v4.1-graphite.vil back then, so they work without loading the .vil.
+// Vial erases its combos and key overrides on the first boot of every new build.
+// Write the ones from corne-v4.1-graphite.vil back then, so they work without
+// loading the .vil.
 // Keep this list in the same order as the .vil.
 static const vial_combo_entry_t default_combos[] PROGMEM = {
     {{KC_B, KC_L, KC_NO, KC_NO}, KC_ESC},
@@ -132,6 +133,20 @@ static const vial_combo_entry_t default_combos[] PROGMEM = {
     {{KC_F, KC_U, KC_NO, KC_NO}, KC_ESC},
     {{KC_O, KC_U, KC_NO, KC_NO}, KC_QUOT},
     {{KC_DOT, KC_MINS, KC_NO, KC_NO}, OSM(MOD_MEH)},
+};
+
+// The Graphite shift pairs, also from the .vil and in the same order: Shift
+// (either side) on the base layer changes the shifted symbol of ' , / -.
+#define GRAPHITE_SHIFT(trigger, replacement) \
+    {trigger, replacement, 1 << _BASE, MOD_BIT(KC_LSFT) | MOD_BIT(KC_RSFT), 0, 0, \
+     vial_ko_enabled | vial_ko_option_activation_trigger_down | \
+     vial_ko_option_activation_required_mod_down | vial_ko_option_activation_negative_mod_up}
+
+static const vial_key_override_entry_t default_key_overrides[] PROGMEM = {
+    GRAPHITE_SHIFT(KC_QUOT, LSFT(KC_MINS)), // Shift+' gives _
+    GRAPHITE_SHIFT(KC_COMM, LSFT(KC_SLSH)), // Shift+, gives ?
+    GRAPHITE_SHIFT(KC_SLSH, LSFT(KC_COMM)), // Shift+/ gives <
+    GRAPHITE_SHIFT(KC_MINS, LSFT(KC_QUOT)), // Shift+- gives "
 };
 
 // Detect the first boot of a new build, before Vial resets its EEPROM.
@@ -148,7 +163,12 @@ void keyboard_post_init_user(void) {
             memcpy_P(&combo, &default_combos[i], sizeof(combo));
             dynamic_keymap_set_combo(i, &combo);
         }
-        vial_init(); // reload the combos from EEPROM; Vial read them before the reset
+        for (uint8_t i = 0; i < ARRAY_SIZE(default_key_overrides); ++i) {
+            vial_key_override_entry_t ko;
+            memcpy_P(&ko, &default_key_overrides[i], sizeof(ko));
+            dynamic_keymap_set_key_override(i, &ko);
+        }
+        vial_init(); // reload from EEPROM; Vial read the empty entries before the reset
 
         // The .vil holds no LED settings: start on Typing Heatmap. Changes made
         // in Vial stay until the next new build.
