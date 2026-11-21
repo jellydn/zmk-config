@@ -24,7 +24,7 @@ Miryoku-style thumb layers.
 
 - **Base**: Graphite with home-row mods `Gui Alt Ctrl Shift` on `N R T S` and the mirror,
   `Shift Ctrl Alt Gui`, on `H A E I`. They use urob's "timeless" setup; see
-  [Home-row mods](#home-row-mods).
+  [Home-row mods](#home-row-mods) and the [FAQ](#faq-tap-hold-settings).
 - **Thumbs** (left to right): `=`, `Space`/Nav, `Tab`/Mouse, `Enter`/Sym, `Bksp`/Num, `;`.
 - **Layers**: Nav (arrows, Home/End, PgUp/PgDn), Mouse (mouse keys, Cmd shortcuts, one-shot Fn),
   Sym (shifted Num), Num (numpad), Fn (F-keys, media). `Lock` keeps the current layer on until you
@@ -82,6 +82,11 @@ hand, or a mod on its own.
   a tap, so you can hold `Space` for Nav right after a letter. In the Vial builds, Flow Tap would
   also catch `Space`/Nav, so each `keymap.c` limits it with `is_flow_tap_key`. A tapped `Space` still
   counts as typing before a home-row mod.
+- On the Corne, Chordal Hold counts the thumb layer-taps as neither hand (`chordal_hold_handedness`
+  in `keymap.c`). So holding `Space` for Nav works with Nav keys on the same hand (Esc, the left
+  mods), and a home-row mod plus any thumb key is a chord, as on the Silakka54. A thumb layer turns
+  on when the other key is released or after the 200 ms tapping term (Vial's QMK Settings owns the
+  per-key hold callbacks, so the thumbs cannot turn on at the press). (Untested on hardware.)
 - "Typing key" differs a little. With ZMK it is any non-modifier key press (mods and layer keys do
   not count). With Vial it is a letter, `.` `,` `;`
   `/`, a plain `Space` or a tapped `Space`/Nav, with no Cmd, Ctrl or left Alt held (QMK's default rule).
@@ -89,6 +94,30 @@ hand, or a mod on its own.
   Esc. Vial combos have no idle rule.
 - Vial resets Permissive Hold, Chordal Hold and Flow Tap to off on every new build. Load the `.vil`
   after every flash.
+
+## FAQ: tap-hold settings
+
+Corne values come from Vial's QMK Settings (load the `.vil`; check them under **QMK Settings →
+Tap-Hold**).
+
+| Setting | What it does | Why / trade-off | Example |
+| --- | --- | --- | --- |
+| Tapping term 200 ms | A key held longer than this on its own is a hold. | Fallback only; the rules below decide most presses sooner. Shorter means faster mods but more stray mods. | Rest on `S` 250 ms → Shift. |
+| Permissive Hold | Another key pressed *and released* inside a held key makes it a hold at once. | Fast shortcuts (ZMK `balanced`). A sloppy roll can give a mod; Flow Tap and Chordal Hold catch most. | `T`↓ `C`↓ `C`↑ → Ctrl+C. |
+| Flow Tap 150 ms | A home-row mod pressed within 150 ms of a typing key is a letter at once. | No typing delay (ZMK `require-prior-idle-ms`). Pause briefly before a mod right after a letter. Thumb layer-taps are excluded. | Fast `the` → letters, no mods. |
+| Chordal Hold | A hold needs the next key on the *other* hand. | Same-hand rolls stay letters. A same-hand mod needs the full 200 ms. Thumb layer-taps count as neither hand, so Nav keys on the thumb's own hand work. | `S` `T` (same hand) → `st`. |
+| Combo term 50 ms | Combo keys must go down within 50 ms. | Chords fire, rolls type. Vial has no idle rule, so a very fast `bl` can still give Esc. | `B`+`L` together → Esc. |
+| Base-layer combos | Combos fire only on the base layer (`combo_should_trigger`). | Stops `.` `-` on Num from firing sticky Meh. | — |
+
+**Why does my thumb layer wait ~200 ms?** Hold a thumb key and *hold* the next key (for example
+`Space` + an arrow): the layer turns on only at the 200 ms term. A tapped next key is instant. Vial's
+QMK Settings owns "hold on other key press" for all keys, so `keymap.c` cannot turn it on for the
+thumbs only (PR #9). Turning it on globally in Vial would also give stray home-row mods.
+
+**Silakka54 (ZMK):** urob's timeless setup does the same with ZMK names: `balanced` (Permissive
+Hold), `require-prior-idle-ms = <150>` (Flow Tap), `hold-trigger-key-positions` on the other hand and
+all thumbs plus `hold-trigger-on-release` (Chordal Hold). Its term is 280 ms, any non-modifier key
+counts as typing, and its combos also have a 150 ms idle rule.
 
 ## Layout of the repo
 
@@ -119,8 +148,11 @@ extra keys, then includes `base.keymap`. Combos and HRM trigger keys use the
 The extra keys hold ←/→ (EX1) and Play/Pause / Next Track (EX2). The `.vil` is the single source of truth for
 combos, key overrides, macro M0 and QMK Settings: Vial keeps them in EEPROM, not in `keymap.c`, and
 erases them on the first boot of every new build. **Load the `.vil` after every flash.** The firmware
-itself only adds three things Vial cannot store: combos fire on the base layer only, Flow Tap
-covers the home-row mods only, and the LEDs start on Typing Heatmap.
+itself only adds what Vial cannot store: combos fire on the base layer only, Flow Tap covers the
+home-row mods only, Chordal Hold counts the thumb layer-taps as neither hand, and the LEDs start on
+Typing Heatmap. On that first boot it also writes the `.vil` combos and Graphite shift overrides
+back, so they work before you load the `.vil` (`default_combos` and `default_key_overrides` in
+`keymap.c`; keep them in sync with the `.vil`).
 
 > [!WARNING]
 > **The QMK keymap (`keymap.c`) is UNTESTED on hardware.** Its layers match the `.vil` key for key,
@@ -266,8 +298,8 @@ covers them, press them with a non-metal stick between the keys.
    the main half.)
 8. **Required after every flash:** open [Vial](https://get.vial.today/), choose **File → Load saved
    layout** and pick `corne-v4.1-graphite.vil`. Each new build starts with an empty Vial EEPROM:
-   without this step the Corne has **no combos** (no D+W Hyper, no B+L Esc, …), no Graphite shift
-   overrides, and permissive hold and chordal hold off.
+   without this step the Corne has no macro M0, and permissive hold, chordal hold and Flow Tap are
+   off. (The combos and the Graphite shift overrides are in the firmware and need no `.vil`.)
 
 Other way into the bootloader: hold the top-row key second from the outer edge (`B` on the left,
 `J` on the right) while you plug in that half. This also erases the Vial settings, so load the
@@ -276,7 +308,8 @@ Other way into the bootloader: hold the top-row key second from the outer edge (
 **Troubleshooting**
 
 - One half does not type: flash that half again.
-- Combos or the Graphite shift symbols do not work: load the `.vil` again (step 8).
+- Combos or the Graphite shift symbols do not work: check that you are on the base layer (both work
+  only there). If you changed them in Vial, load the `.vil` again to restore them.
 - A half stops working at random: Corne v4 PCBs are sensitive to radio noise, most often from a
   phone ([foostan/crkbd#265](https://github.com/foostan/crkbd/issues/265)). Plug the USB cable in
   again and keep phones more than 30 cm from the keyboard.
