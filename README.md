@@ -86,7 +86,7 @@ hand, or a mod on its own.
   in `keymap.c`). So holding `Space` for Nav works with Nav keys on the same hand (Esc, the left
   mods), and a home-row mod plus any thumb key is a chord, as on the Silakka54. A thumb layer turns
   on when the other key is released or after the 200 ms tapping term (Vial's QMK Settings owns the
-  per-key hold callbacks, so the thumbs cannot turn on at the press). (Untested on hardware.)
+  per-key hold callbacks, so the thumbs cannot turn on at the press).
 - "Typing key" differs a little. With ZMK it is any non-modifier key press (mods and layer keys do
   not count). With Vial it is a letter, `.` `,` `;`
   `/`, a plain `Space` or a tapped `Space`/Nav, with no Cmd, Ctrl or left Alt held (QMK's default rule).
@@ -154,10 +154,9 @@ Typing Heatmap. On that first boot it also writes the `.vil` combos, Graphite sh
 macro M0 back, so they work before you load the `.vil` (`default_combos`, `default_key_overrides`
 and `default_macros` in `keymap.c`; keep them in sync with the `.vil`).
 
-> [!WARNING]
-> **The QMK keymap (`keymap.c`) is UNTESTED on hardware.** Its layers match the `.vil` key for key,
-> so the layout before you load the `.vil` should be the same. The tested path is Vial with
-> `corne-v4.1-graphite.vil` loaded.
+Tested on hardware (2026-11-21): the firmware from `main` with `corne-v4.1-graphite.vil` loaded.
+Holding a thumb key for its layer right after typing works, and the combos, Graphite shift overrides
+and macro M0 work straight after a flash.
 
 ## Silakka54 (QMK/Vial)
 
