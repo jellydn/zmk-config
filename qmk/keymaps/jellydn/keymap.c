@@ -1,7 +1,9 @@
 // Corne v4.1 (crkbd/rev4_1/standard): Graphite Miryoku layout, synced with the
 // Silakka54 keymap. Generated from corne-v4.1-graphite.vil; keep both in sync.
-// keymap.c writes the .vil combos, key overrides and macro M0 on first boot.
+// keymap.c writes the .vil combos, key overrides, macro M0 and QMK Settings on
+// first boot.
 #include QMK_KEYBOARD_H
+#include "qmk_settings.h"
 
 enum layers { _BASE, _NAV, _MOUSE, _SYM, _NUM, _FN };
 
@@ -164,6 +166,19 @@ static const uint8_t default_macros[] PROGMEM = {
     0,
 };
 
+// QMK Settings from the .vil that differ from Vial's reset defaults, by QSID.
+// Written with qmk_settings_set, as Vial does when it loads the .vil, so they
+// show in Vial's QMK Settings tab and can still be changed there.
+static void write_default_qmk_settings(void) {
+    const uint8_t  on              = 1;
+    const uint16_t tap_code_delay  = 0;   // QSID 18, reset default 10 ms
+    const uint16_t flow_tap_term   = 150; // QSID 27, reset default 0 (off)
+    qmk_settings_set(18, &tap_code_delay, sizeof(tap_code_delay));
+    qmk_settings_set(22, &on, sizeof(on)); // Permissive Hold
+    qmk_settings_set(26, &on, sizeof(on)); // Chordal Hold
+    qmk_settings_set(27, &flow_tap_term, sizeof(flow_tap_term));
+}
+
 // Detect the first boot of a new build, before Vial resets its EEPROM.
 static bool vial_eeprom_was_reset;
 
@@ -188,6 +203,8 @@ void keyboard_post_init_user(void) {
         uint8_t macros[sizeof(default_macros)];
         memcpy_P(macros, default_macros, sizeof(macros));
         dynamic_keymap_macro_set_buffer(0, sizeof(macros), macros); // read at each press
+
+        write_default_qmk_settings();
 
         // The .vil holds no LED settings: start on Typing Heatmap. Changes made
         // in Vial stay until the next new build.
