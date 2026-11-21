@@ -66,11 +66,13 @@ jobs:
         run: qmk compile -kb tmp/crkbd/rev4_1/standard -km jellydn
 
       # qmk compile also copies the .uf2 to the vial-qmk root; upload-artifact
-      # skips the hidden .build/ folder.
+      # skips the hidden .build/ folder. QMK names it after the keyboard path
+      # (tmp/crkbd/...), so give it a clear name.
       - name: Collect firmware
         run: |
           mkdir firmware
-          cp vial-qmk/*.uf2 qmk/corne-v4.1-graphite.vil firmware/
+          cp vial-qmk/tmp_crkbd_rev4_1_standard_jellydn.uf2 firmware/corne-v4.1-vial.uf2
+          cp qmk/corne-v4.1-graphite.vil firmware/
 
       - uses: actions/upload-artifact@v7
         with:
