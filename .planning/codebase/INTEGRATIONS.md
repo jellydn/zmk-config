@@ -1,0 +1,73 @@
+# External Integrations
+
+**Analysis Date:** 2026-11-21
+
+## APIs & External Services
+
+**Source repositories fetched at build time:**
+- zmkfirmware/zmk, zmkfirmware/zephyr and Zephyr HAL repos - via west (`config/west.yml`)
+- urob/zmk-helpers, urob/zmk-leader-key - ZMK modules via west
+- vial-kb/vial-qmk at `VIAL_QMK_REF` - `.github/workflows/build-qmk.yml`, `build-qmk-silakka54.yml`
+- foostan/kbd_firmware at `KBD_FIRMWARE_REF` - Corne keyboard definition, `build-qmk.yml`
+
+**Reusable GitHub workflows (unpinned, `@main`):**
+- `urob/zmk-actions/.github/workflows/build-user-config.yml` - ZMK build (`build-nix.yml`)
+- `caksoylar/keymap-drawer/.github/workflows/draw-zmk.yml` - keymap SVG (`draw.yml`)
+- `urob/pin-west@main` action - weekly west bump PR (`bump-west.yml`)
+
+**Vial desktop/web app (get.vial.today):** users load `qmk/*.vil` after flashing. Not called by CI.
+
+## Data Storage
+
+**Databases:** None.
+
+**File Storage:**
+- GitHub Actions artifacts: `firmware` (ZMK), `corne-v4.1-vial`, `silakka54-vial`.
+- GitHub Release `latest` (rolling): rebuilt on every push to `main` by `release.yml`; holds 4
+  `.uf2`, both `.vil` and `draw/*.svg`.
+
+**Caching:** Handled inside the reusable ZMK workflow; QMK workflows do not cache.
+
+## Authentication & Identity
+
+**Auth Provider:** GitHub `GITHUB_TOKEN` only.
+- `release.yml` release job: `contents: write` (delete + recreate the `latest` release/tag).
+- `draw.yml`: `contents: write` (commits `chore(draw): render keymap`).
+- `bump-west.yml`: `contents: write`, `pull-requests: write`; optional `WEST_UPDATE_TOKEN` PAT.
+- Other workflows: `contents: read`.
+
+## Monitoring & Observability
+
+**Error Tracking:** None. CI status in the GitHub Actions tab is the only signal.
+
+**Logs:** Actions run logs.
+
+## CI/CD & Deployment
+
+**Hosting:** GitHub (jellydn/zmk-vial-config).
+
+**CI Pipeline (`.github/workflows/`):**
+- `build-nix.yml` - ZMK build; push/PR on `config/**`, `build.yaml`; also `workflow_call`.
+- `build-qmk.yml` - Corne Vial build; push/PR on `qmk/keymaps/**`, the Corne `.vil`; `workflow_call`.
+- `build-qmk-silakka54.yml` - Silakka54 Vial build; push/PR on `qmk/silakka54/**`, its `.vil`; `workflow_call`.
+- `release.yml` - calls the three builds and publishes the `latest` release on push to `main`.
+- `draw.yml` - renders and commits `draw/silakka54.svg` on keymap pushes.
+- `bump-west.yml` - Mondays 05:00 UTC, opens a pin-west bump PR.
+- `test-build-env.yml` - nix dev shell smoke test on Linux/macOS x86_64 and arm64.
+- `.github/dependabot.yml` - monthly grouped github-actions updates, 14-day cooldown.
+
+## Environment Configuration
+
+**Required env vars:** None.
+
+**Secrets location:** GitHub repository secrets (`WEST_UPDATE_TOKEN`, optional).
+
+## Webhooks & Callbacks
+
+**Incoming:** None.
+
+**Outgoing:** None.
+
+---
+
+*Integration audit: 2026-11-21*
