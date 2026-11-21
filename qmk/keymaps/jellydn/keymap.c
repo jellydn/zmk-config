@@ -22,7 +22,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_MOUSE] = LAYOUT_split_3x6_3_ex2(
               XXXXXXX,       XXXXXXX,    LGUI(KC_W),    LGUI(KC_C),    LGUI(KC_V),    LGUI(KC_X),       KC_VOLD,          KC_VOLU,        KC_TAB,       XXXXXXX,         MS_UP,       XXXXXXX,       XXXXXXX,       XXXXXXX,
-               KC_ESC,       KC_LGUI,       KC_LALT,       KC_LCTL,       KC_LSFT, C(S(G(KC_4))),       KC_MUTE,          KC_MNXT,        KC_ENT,       MS_LEFT,       MS_DOWN,       MS_RGHT,       KC_CAPS,       XXXXXXX,
+               KC_ESC,       KC_LGUI,       KC_LALT,       KC_LCTL,       KC_LSFT, C(S(G(KC_4))),       KC_MUTE,          KC_MNXT,        KC_ENT,       MS_LEFT,       MS_DOWN,       MS_RGHT,       XXXXXXX,       XXXXXXX,
               XXXXXXX,       XXXXXXX,    LGUI(KC_Q),    LGUI(KC_S),    LGUI(KC_A),      OSL(_FN),                                          KC_ESC,       MS_WHLL,       MS_WHLD,       MS_WHLU,       MS_WHLR,       XXXXXXX,
                                                            XXXXXXX,       XXXXXXX,       XXXXXXX,          MS_BTN1,       MS_BTN2,       QK_LLCK
     ),
