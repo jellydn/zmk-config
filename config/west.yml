@@ -38,6 +38,9 @@ manifest:
     - name: zmk-helpers
       path: modules/zmk/helpers
       revision: 7bcba18fc8df27303eb92a435d33ea870cc51f98 # main (2026-10-19)
+    - name: zmk-leader-key
+      path: modules/zmk/leader-key
+      revision: 4745294d5f2bc12bbdf91471dd85bfbdbb35c47d # main (2026-10-19)
 
     # Avoid downloading GBs of unused Zephyr modules. Remove this section to
     # restore the default (needed for less common hardware).

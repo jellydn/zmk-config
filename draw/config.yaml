@@ -22,6 +22,7 @@ parse_config:
     "&gr_minus": { "t": "-", "s": "\"" }
     "&gr_fslh": { "t": "/", "s": "<" }
     "&sl 5": { "t": "Fn", "h": "one-shot" }
+    "&leader": Leader
     "&tog 1": Lock
     "&tog 2": Lock
     "&tog 5": Lock

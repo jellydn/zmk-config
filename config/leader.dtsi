@@ -1,0 +1,18 @@
+/* Leader key (urob/zmk-leader-key): tap &leader, then type a sequence.
+
+   Sequences run on the half where &leader was pressed, so &bootloader and
+   &sys_reset reboot that half. Combos always run on the central (left) half,
+   so the right half needs &leader on a real right-hand key: Nav layer, outer
+   bottom-right key. The left half has it on Sym/Num, outer bottom-left key. */
+
+/ {
+    behaviors {
+        leader: leader {
+            compatible = "zmk,behavior-leader-key";
+            #binding-cells = <0>;
+            ignore-keys = <LSHFT RSHFT>;
+            boot { sequence = <B O O T>; bindings = <&bootloader>; };
+            reset { sequence = <R E S E T>; bindings = <&sys_reset>; };
+        };
+    };
+};

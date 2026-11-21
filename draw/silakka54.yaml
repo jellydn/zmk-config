@@ -103,7 +103,7 @@ layers:
   - Home
   - End
   - ''
-  - ''
+  - Leader
   - ''
   - {type: held}
   - ''
@@ -202,7 +202,7 @@ layers:
   - Alt
   - Gui
   - ''
-  - ''
+  - Leader
   - '~'
   - '!'
   - '@'
@@ -257,7 +257,7 @@ layers:
   - Alt
   - Gui
   - ''
-  - ''
+  - Leader
   - '`'
   - '1'
   - '2'
