@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+# Amp orb setup: the nix dev shell (west, Zephyr SDK, just, keymap-drawer) and
+# the west workspace, so `just build silakka54` and `just draw` work at once.
+# The Vial firmware builds only in GitHub Actions.
+set -euo pipefail
+
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$repo_root"
+
+step() { echo "==> $* ($(date +%T))"; }
+SECONDS=0
+
+nix_profile="$HOME/.nix-profile"
+if [[ ! -x "$nix_profile/bin/nix" ]]; then
+  step "Installing nix (single-user)"
+  # The single-user installer needs a /nix that the user owns.
+  sudo install -d -o "$(id -u)" -g "$(id -g)" /nix
+  curl -fsSL https://nixos.org/nix/install | sh -s -- --no-daemon
+fi
+if ! grep -qs 'experimental-features.*flakes' /etc/nix/nix.conf; then
+  sudo mkdir -p /etc/nix
+  echo 'experimental-features = nix-command flakes' | sudo tee -a /etc/nix/nix.conf >/dev/null
+fi
+# The installer cannot update this running script's environment.
+# shellcheck disable=SC1091
+source "$nix_profile/etc/profile.d/nix.sh"
+
+step "Building the nix dev shell (cold: about 2.5 min)"
+nix print-dev-env "$repo_root" >/dev/null
+
+step "Fetching the west workspace (cold: about 1.5 min)"
+nix develop "$repo_root" --command bash -euo pipefail -c '
+  [[ -d .west ]] || west init -l config
+  west update --fetch-opt=--filter=blob:none
+  west zephyr-export
+'
+
+# Load the dev shell in login shells started at the repository root, which is
+# how Amp and supervised orb services start.
+profile_marker="# zmk-vial-config nix dev shell"
+if ! grep -Fqx "$profile_marker" "$HOME/.bash_profile" 2>/dev/null; then
+  step "Adding the dev shell hook to ~/.bash_profile"
+  cat >>"$HOME/.bash_profile" <<EOF
+
+$profile_marker
+if [[ -z "\${IN_NIX_SHELL:-}" && "\${PWD}" == "$repo_root" ]]; then
+  eval "\$("$nix_profile/bin/nix" print-dev-env "$repo_root")"
+fi
+EOF
+fi
+
+step "Done in ${SECONDS}s"
